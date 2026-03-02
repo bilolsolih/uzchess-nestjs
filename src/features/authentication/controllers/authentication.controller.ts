@@ -4,6 +4,7 @@ import { AuthenticationService } from '../services/authentication.service';
 import { SignUpDto } from '../dtos/sign-up.dto';
 import { ResendOtpDto } from '../dtos/resend-otp.dto';
 import { VerifyOtpDto } from '../dtos/verify-otp.dto';
+import { SetPasswordDto } from '../dtos/set-password.dto';
 
 @Controller('auth')
 export class AuthenticationController {
@@ -27,5 +28,10 @@ export class AuthenticationController {
   @Post('resend-otp')
   async resendOtp(@Body() payload: ResendOtpDto) {
     return await this.authService.resendOtp(payload);
+  }
+
+  @Post('set-password')
+  async setPassword(@Body() payload: SetPasswordDto) {
+    return await this.authService.setPassword(payload);
   }
 }

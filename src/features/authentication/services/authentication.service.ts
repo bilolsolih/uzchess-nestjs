@@ -15,6 +15,7 @@ import { OtpType } from '../../../core/enums/otp-type.enum';
 import { VerifyOtpDto } from '../dtos/verify-otp.dto';
 import { ResendOtpDto } from '../dtos/resend-otp.dto';
 import { OtpCode } from '../entities/otp-code.entity';
+import { SetPasswordDto } from '../dtos/set-password.dto';
 
 @Injectable()
 export class AuthenticationService {
@@ -49,7 +50,7 @@ export class AuthenticationService {
       throw new InternalServerErrorException('No secret key found');
     }
 
-    let passwordsMatch = await argon2.verify(user.password, password + secretKey);
+    let passwordsMatch = await argon2.verify(user.password, password);
     if (!passwordsMatch) {
       throw new UnauthorizedException();
     }
@@ -79,8 +80,20 @@ export class AuthenticationService {
     await User.save(user);
   }
 
-  async setPassword(){
+  async setPassword(payload: SetPasswordDto) {
+    let user = await User.findOneBy({ login: payload.login });
+    if (!user) {
+      throw new NotFoundException('Does not exist');
+    }
 
+    let otpCode = await OtpCode.findOneBy({ userId: user.id, code: payload.code, type: OtpType.Register });
+    if (!otpCode) {
+      throw new BadRequestException('Code is wrong');
+    }
+
+    user.password = await argon2.hash(payload.password);
+
+    await User.save(user);
   }
 
   async resendOtp({ login, loginType }: ResendOtpDto) {
