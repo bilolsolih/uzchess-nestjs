@@ -6,10 +6,14 @@ import { BookReview } from '../../library/entities/book-review.entity';
 import { CourseReview } from '../../courses/entities/course-review.entity';
 import { CourseLike } from '../../courses/entities/course-like.entity';
 import { BookLike } from '../../library/entities/book-like.entity';
-import { UsersLessons } from '../../courses/entities/users-lessons';
+import { UsersLessons } from '../../courses/entities/users-lessons.entity';
+import { Role } from '../../../core/enums/role.enum';
 
 @Entity('users')
 export class User extends BaseModel {
+  @Column({ type: 'enum', enum: Role, default: Role.User })
+  role!: Role;
+
   @Column({ length: 64 })
   fullName!: string;
 

@@ -3,7 +3,7 @@ import { Column, Entity, JoinColumn, ManyToOne, Relation } from 'typeorm';
 import { User } from '../../authentication/entities/user.entity';
 import { CourseLesson } from './course-lesson.entity';
 
-@Entity('users-lessons')
+@Entity('usersLessons')
 export class UsersLessons extends BaseModel {
   @Column()
   userId!: number;
