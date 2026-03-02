@@ -1,0 +1,12 @@
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { INestApplication } from '@nestjs/common';
+
+export const configureSwagger = (app: INestApplication) => {
+  let swaggerConfig = new DocumentBuilder()
+    .setTitle('UzChess')
+    .setVersion('1.0.0')
+    .build();
+
+  let docs = SwaggerModule.createDocument(app, swaggerConfig);
+  SwaggerModule.setup('/docs', app, docs);
+};
