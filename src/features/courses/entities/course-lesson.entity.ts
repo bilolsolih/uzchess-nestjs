@@ -2,7 +2,7 @@ import { Column, Entity, JoinColumn, ManyToOne, OneToMany, Relation } from 'type
 import { BaseModel } from '../../../core/base-model.entity';
 import { Course } from './course.entity';
 import { CourseSection } from './course-section.entity';
-import { UsersLessons } from './users-lessons';
+import { UsersLessons } from './users-lessons.entity';
 
 @Entity('courseLessons')
 export class CourseLesson extends BaseModel {

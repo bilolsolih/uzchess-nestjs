@@ -1,17 +1,12 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AuthenticationModule } from './features/authentication/authentication.module';
+import { typeOrmConfig } from './configs/type-orm.config';
+import { LibraryModule } from './features/library/library.module';
+import { APP_GUARD } from '@nestjs/core';
+import { RolesGuard } from './core/guards/roles.guard';
 
 @Module({
-  imports: [
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      url: process.env.DB_URL,
-      synchronize: true,
-      autoLoadEntities: true,
-      entities: ['./dist/**/*.entity.js'],
-    }),
-    AuthenticationModule,
-  ],
+  providers: [{ provide: APP_GUARD, useClass: RolesGuard }],
+  imports: [TypeOrmModule.forRoot(typeOrmConfig), LibraryModule],
 })
 export class AppModule {}
