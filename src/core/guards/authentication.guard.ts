@@ -12,7 +12,11 @@ export class AuthenticationGuard implements CanActivate {
       return false;
     }
 
-    let token = request.headers.authorization.split(' ')[1];
+    let [bearer, token] = request.headers.authorization.split(' ');
+
+    if (bearer.toLowerCase() !== 'bearer') {
+      return false;
+    }
 
     if (!token) {
       return false;
