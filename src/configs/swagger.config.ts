@@ -5,6 +5,7 @@ export const configureSwagger = (app: INestApplication) => {
   let swaggerConfig = new DocumentBuilder()
     .setTitle('UzChess')
     .setVersion('1.0.0')
+    .addBearerAuth()
     .build();
 
   let docs = SwaggerModule.createDocument(app, swaggerConfig);

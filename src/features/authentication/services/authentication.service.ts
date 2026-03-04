@@ -58,6 +58,7 @@ export class AuthenticationService {
     let userPayload = {
       id: user.id,
       login: user.login,
+      role: user.role,
     };
 
     let accessToken = this.jwtService.sign(userPayload);
@@ -92,6 +93,7 @@ export class AuthenticationService {
     }
 
     user.password = await argon2.hash(payload.password);
+    user.isActive = true;
 
     await User.save(user);
   }

@@ -1,25 +1,35 @@
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
+import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
 import { Request } from 'express';
 import { Observable } from 'rxjs';
 import { JwtService } from '@nestjs/jwt';
+import { Reflector } from '@nestjs/core';
+import { RolesKey } from '../decorators/roles.decorator';
 
 @Injectable()
 export class AuthenticationGuard implements CanActivate {
-  constructor(private readonly jwtService: JwtService) {}
+  constructor(
+    private readonly jwtService: JwtService,
+    private readonly reflector: Reflector,
+  ) {}
   canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
+    let roles = this.reflector.getAllAndOverride(RolesKey, [context.getHandler(), context.getClass()]);
+    if (!roles) {
+      return true;
+    }
+
     let request: Request = context.switchToHttp().getRequest();
     if (!request.headers.authorization) {
-      return false;
+      throw new UnauthorizedException();
     }
 
     let [bearer, token] = request.headers.authorization.split(' ');
 
     if (bearer.toLowerCase() !== 'bearer') {
-      return false;
+      throw new UnauthorizedException();
     }
 
     if (!token) {
-      return false;
+      throw new UnauthorizedException();
     }
 
     try {
@@ -27,7 +37,7 @@ export class AuthenticationGuard implements CanActivate {
       request.user = this.jwtService.verify(token);
       return true;
     } catch (exc) {
-      return false;
+      throw new UnauthorizedException();
     }
   }
 }
