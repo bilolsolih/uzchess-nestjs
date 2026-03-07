@@ -1,24 +1,24 @@
-import { BaseModel } from '../../../core/base-model.entity';
-import { Column, Entity, JoinColumn, ManyToOne, Relation } from 'typeorm';
-import { User } from '../../authentication/entities/user.entity';
-import { Course } from './course.entity';
+import {BaseModel} from '../../../core/base-model.entity';
+import {Column, Entity, JoinColumn, ManyToOne} from 'typeorm';
+import {User} from '../../authentication/entities/user.entity';
+import {Course} from './course.entity';
 
 @Entity('coursePurchases')
 export class CoursePurchase extends BaseModel {
   @Column()
   userId!: number;
 
-  @ManyToOne(() => User, (user) => user.courseLikes, { onDelete: 'CASCADE' })
-  @JoinColumn({ name: 'userId' })
-  user?: Relation<User>;
+  @ManyToOne(() => User, (user) => user.courseLikes, {onDelete: 'CASCADE'})
+  @JoinColumn({name: 'userId'})
+  user?: User;
 
   @Column()
   courseId!: number;
 
-  @ManyToOne(() => Course, (course) => course.purchases, { onDelete: 'CASCADE' })
-  @JoinColumn({ name: 'courseId' })
-  course?: Relation<Course>;
+  @ManyToOne(() => Course, (course) => course.purchases, {onDelete: 'CASCADE'})
+  @JoinColumn({name: 'courseId'})
+  course?: Course;
 
-  @Column({ type: 'boolean', default: false })
+  @Column({type: 'boolean', default: false})
   isCompleted!: boolean;
 }
