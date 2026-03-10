@@ -1,4 +1,4 @@
-import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
+import {CanActivate, ExecutionContext, ForbiddenException, Injectable, UnauthorizedException} from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { Reflector } from '@nestjs/core';
 import { RolesKey } from '../decorators/roles.decorator';
@@ -20,6 +20,10 @@ export class RolesGuard implements CanActivate {
       throw new UnauthorizedException('Credentials were not found');
     }
 
-    return roles.includes(user.role);
+    if (!roles.includes(user.role)){
+      throw new ForbiddenException('For admins only')
+    }
+
+    return true;
   }
 }

@@ -1,7 +1,60 @@
-import {Controller} from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Post,
+  UploadedFile,
+  UseInterceptors
+} from '@nestjs/common';
+import {NewsServiceAdmin} from '../services/news.service.admin';
+import {ApiBearerAuth, ApiConsumes, ApiOkResponse, ApiTags} from '@nestjs/swagger';
+import {NewsCreateDtoAdmin} from '../dtos/news/admin/news.create.dto.admin';
+import {NewsListDtoAdmin} from '../dtos/news/admin/news.list.dto.admin';
+import {NewsUpdateDtoAdmin} from '../dtos/news/admin/news.update.dto.admin';
+import {NewsDetailDtoAdmin} from '../dtos/news/admin/news.detail.dto.admin';
+import {Roles} from '../../../core/decorators/roles.decorator';
+import {Role} from '../../../core/enums/role.enum';
+import {FileInterceptor} from '@nestjs/platform-express';
 
-@Controller()
-export class NewsControllerAdmin{
-  constructor(private readonly ) {
+@ApiTags('News - Admin')
+@ApiBearerAuth()
+@Controller('admin/news')
+@Roles(Role.Admin, Role.SuperAdmin)
+export class NewsControllerAdmin {
+  constructor(private readonly service: NewsServiceAdmin) {
   }
+
+  @Post()
+  @ApiConsumes('multipart/form-data')
+  @UseInterceptors(FileInterceptor('image'))
+  async create(@Body() payload: NewsCreateDtoAdmin, @UploadedFile() image: Express.Multer.File) {
+    return await this.service.create(payload, image);
+  }
+
+  @Get()
+  @ApiOkResponse({type: () => NewsListDtoAdmin, isArray: true})
+  async findAll(): Promise<NewsListDtoAdmin[]> {
+    return await this.service.findAll();
+  }
+
+  @Get(':id')
+  @ApiOkResponse({type: () => NewsDetailDtoAdmin})
+  async findOne(@Param('id', ParseIntPipe) id: number): Promise<NewsDetailDtoAdmin> {
+    return await this.service.findOne(id);
+  }
+
+  @Patch(':id')
+  async update(@Param('id') id: number, @Body() payload: NewsUpdateDtoAdmin) {
+    return await this.service.update(id, payload);
+  }
+
+  @Delete(':id')
+  async delete(@Param('id') id: number) {
+    return await this.service.delete(id);
+  }
+
 }

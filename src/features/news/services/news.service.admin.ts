@@ -4,12 +4,13 @@ import {NewsCreateDtoAdmin} from '../dtos/news/admin/news.create.dto.admin';
 import {News} from '../entities/news.entity';
 import {NewsUpdateDtoAdmin} from '../dtos/news/admin/news.update.dto.admin';
 import {NewsListDtoAdmin} from '../dtos/news/admin/news.list.dto.admin';
+import {NewsDetailDtoAdmin} from '../dtos/news/admin/news.detail.dto.admin';
 
 @Injectable()
 export class NewsServiceAdmin {
-  async create(payload: NewsCreateDtoAdmin): Promise<News> {
-    let newNews = News.create(payload);
-    await News.save(newNews);
+  async create(payload: NewsCreateDtoAdmin, image: Express.Multer.File): Promise<News> {
+    let newNews = News.create({...payload, image: image.destination + '/' + image.filename});
+    // await News.save(newNews);
     return newNews;
   }
 
@@ -30,6 +31,12 @@ export class NewsServiceAdmin {
   async findAll(): Promise<NewsListDtoAdmin[]> {
     let news = await News.find();
     let data = plainToInstance(NewsListDtoAdmin, news, {excludeExtraneousValues: true});
+    return data;
+  }
+
+  async findOne(id: number): Promise<NewsDetailDtoAdmin> {
+    let news = await News.findOneBy({id});
+    let data = plainToInstance(NewsDetailDtoAdmin, news, {excludeExtraneousValues: true});
     return data;
   }
 
