@@ -3,6 +3,7 @@ import {plainToInstance} from 'class-transformer';
 import {News} from '../entities/news.entity';
 import {NewsListDtoPublic} from '../dtos/news/public/news.list.dto.public';
 import {NewsDetailDtoPublic} from '../dtos/news/public/news.detail.dto.public';
+import getFullPath from '../../../core/utils/get-full-path';
 
 @Injectable()
 export class NewsServicePublic {

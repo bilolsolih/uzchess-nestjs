@@ -19,6 +19,7 @@ import {NewsDetailDtoAdmin} from '../dtos/news/admin/news.detail.dto.admin';
 import {Roles} from '../../../core/decorators/roles.decorator';
 import {Role} from '../../../core/enums/role.enum';
 import {FileInterceptor} from '@nestjs/platform-express';
+import {storageOptions} from '../../../configs/multer.configs';
 
 @ApiTags('News - Admin')
 @ApiBearerAuth()
@@ -30,7 +31,7 @@ export class NewsControllerAdmin {
 
   @Post()
   @ApiConsumes('multipart/form-data')
-  @UseInterceptors(FileInterceptor('image'))
+  @UseInterceptors(FileInterceptor('image', {storage: storageOptions}))
   async create(@Body() payload: NewsCreateDtoAdmin, @UploadedFile() image: Express.Multer.File) {
     return await this.service.create(payload, image);
   }
