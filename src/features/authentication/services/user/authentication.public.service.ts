@@ -6,23 +6,22 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { User } from '../entities/user.entity';
+import { User } from '../../entities/user.entity';
 import argon2 from 'argon2';
-import { SignInDto } from '../dtos/sign-in.dto';
-import { SignUpDto } from '../dtos/sign-up.dto';
-import { OtpCodeService } from './otp-code.service';
-import { OtpType } from '../../../core/enums/otp-type.enum';
-import { VerifyOtpDto } from '../dtos/verify-otp.dto';
-import { ResendOtpDto } from '../dtos/resend-otp.dto';
-import { OtpCode } from '../entities/otp-code.entity';
-import { SetPasswordDto } from '../dtos/set-password.dto';
+import { OtpCodePublicService } from '@/features/authentication/services/otp-code/otp-code.public.service';
+import { ResendOtpDto, SetPasswordDto, SignInDto, SignUpDto, VerifyOtpDto } from '@/features/authentication/dtos/user';
+import { OtpType } from '@/core/enums/otp-type.enum';
+import { OtpCode } from '@/features/authentication/entities/otp-code.entity';
+import { ILike } from 'typeorm';
+
 
 @Injectable()
-export class AuthenticationService {
+export class AuthenticationPublicService {
   constructor(
     private readonly jwtService: JwtService,
-    private readonly otpService: OtpCodeService,
-  ) {}
+    private readonly otpService: OtpCodePublicService,
+  ) {
+  }
 
   async signUp(payload: SignUpDto) {
     let user = await User.countBy({ login: payload.login });
@@ -36,7 +35,7 @@ export class AuthenticationService {
   }
 
   async signIn({ login, password }: SignInDto) {
-    let user = await User.findOneBy({ login });
+    let user = await User.findOneBy({ login: ILike(login) });
     if (!user || !user.password) {
       throw new UnauthorizedException();
     }
@@ -121,3 +120,5 @@ export class AuthenticationService {
     await this.otpService.sendOtp(user, OtpType.Register);
   }
 }
+
+// k6 - Go - performance test

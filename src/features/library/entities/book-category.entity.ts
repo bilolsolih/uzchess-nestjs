@@ -1,4 +1,4 @@
-import {BaseModel} from '../../../core/base-model.entity';
+import {BaseModel} from '@/core/base-model.entity';
 import type {Relation} from 'typeorm';
 import {Column, Entity, OneToMany} from 'typeorm';
 import {Book} from './book.entity';

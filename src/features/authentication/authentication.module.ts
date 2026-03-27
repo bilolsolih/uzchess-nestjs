@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
-import { AuthenticationService } from './services/authentication.service';
-import { OtpCodeService } from './services/otp-code.service';
-import { jwtModuleConfig } from '../../configs/jwt-module.config';
-import { AuthenticationController } from './controllers/authentication.controller';
+import { AuthenticationPublicService } from './services/user/authentication.public.service';
+import { OtpCodePublicService } from './services/otp-code/otp-code.public.service';
+import { jwtModuleConfig } from '@/configs/jwt-module.config';
+import { AuthenticationPublicController } from './controllers/user/authentication.public.controller';
 
 @Module({
-  controllers: [AuthenticationController],
+  controllers: [AuthenticationPublicController],
   imports: [JwtModule.register(jwtModuleConfig)],
-  providers: [AuthenticationService, OtpCodeService],
+  providers: [AuthenticationPublicService, OtpCodePublicService],
 })
 export class AuthenticationModule {}

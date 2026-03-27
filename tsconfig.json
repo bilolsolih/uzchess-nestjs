@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
-    "module": "nodenext",
-    "moduleResolution": "bundler",
+    "target": "ESNext",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "resolvePackageJsonExports": true,
     "isolatedModules": true,
     "declaration": true,
@@ -9,7 +10,6 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
-    "target": "ESNext",
     "sourceMap": true,
     "rootDir": "./src",
     "outDir": "./dist",
@@ -25,7 +25,7 @@
     "noFallthroughCasesInSwitch": false,
     "paths": {
       "@/*": [
-        "src/*"
+        "./src/*"
       ]
     }
   },

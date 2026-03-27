@@ -1,5 +1,5 @@
 import {Column, Entity, JoinColumn, ManyToOne, OneToMany} from 'typeorm';
-import {BaseModel} from '../../../core/base-model.entity';
+import {BaseModel} from '@/core/base-model.entity';
 import {Author} from '../../common/entities/author.entity';
 import {Language} from '../../common/entities/language.entity';
 import {Difficulty} from '../../common/entities/difficulty.entity';

@@ -8,42 +8,42 @@ import {
   Patch,
   Post,
   UploadedFile,
-  UseInterceptors
+  UseInterceptors,
 } from '@nestjs/common';
-import {NewsServiceAdmin} from '../services/news.service.admin';
-import {ApiBearerAuth, ApiConsumes, ApiOkResponse, ApiTags} from '@nestjs/swagger';
-import {NewsCreateDtoAdmin} from '../dtos/news/admin/news.create.dto.admin';
-import {NewsListDtoAdmin} from '../dtos/news/admin/news.list.dto.admin';
-import {NewsUpdateDtoAdmin} from '../dtos/news/admin/news.update.dto.admin';
-import {NewsDetailDtoAdmin} from '../dtos/news/admin/news.detail.dto.admin';
-import {Roles} from '../../../core/decorators/roles.decorator';
-import {Role} from '../../../core/enums/role.enum';
-import {FileInterceptor} from '@nestjs/platform-express';
-import {storageOptions} from '../../../configs/multer.configs';
+import { NewsServiceAdmin } from '../services/news.service.admin';
+import { ApiBearerAuth, ApiConsumes, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { NewsCreateDtoAdmin } from '../dtos/news/admin/news.create.dto.admin';
+import { NewsListDtoAdmin } from '../dtos/news/admin/news.list.dto.admin';
+import { NewsUpdateDtoAdmin } from '../dtos/news/admin/news.update.dto.admin';
+import { NewsDetailDtoAdmin } from '../dtos/news/admin/news.detail.dto.admin';
+import { Roles } from '@/core/decorators/roles.decorator';
+import { Role } from '@/core/enums/role.enum';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { storageOptions } from '@/configs/multer.configs';
 
-@ApiTags('News - Admin')
-@ApiBearerAuth()
 @Controller('admin/news')
 @Roles(Role.Admin, Role.SuperAdmin)
+@ApiTags('News - Admin')
+@ApiBearerAuth()
 export class NewsControllerAdmin {
   constructor(private readonly service: NewsServiceAdmin) {
   }
 
   @Post()
   @ApiConsumes('multipart/form-data')
-  @UseInterceptors(FileInterceptor('image', {storage: storageOptions}))
+  @UseInterceptors(FileInterceptor('image', { storage: storageOptions }))
   async create(@Body() payload: NewsCreateDtoAdmin, @UploadedFile() image: Express.Multer.File) {
     return await this.service.create(payload, image);
   }
 
   @Get()
-  @ApiOkResponse({type: () => NewsListDtoAdmin, isArray: true})
+  @ApiOkResponse({ type: () => NewsListDtoAdmin, isArray: true })
   async findAll(): Promise<NewsListDtoAdmin[]> {
     return await this.service.findAll();
   }
 
   @Get(':id')
-  @ApiOkResponse({type: () => NewsDetailDtoAdmin})
+  @ApiOkResponse({ type: () => NewsDetailDtoAdmin })
   async findOne(@Param('id', ParseIntPipe) id: number): Promise<NewsDetailDtoAdmin> {
     return await this.service.findOne(id);
   }

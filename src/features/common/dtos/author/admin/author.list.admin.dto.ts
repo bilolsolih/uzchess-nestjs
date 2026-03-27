@@ -4,9 +4,7 @@ import { Expose } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class AuthorListAdminDto extends BaseModelListDto {
-  @IsString()
-  @MaxLength(64)
   @Expose()
-  @ApiProperty()
+  @ApiProperty({example: 'Solih Coder'})
   fullName!: string;
 }

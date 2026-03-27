@@ -11,6 +11,6 @@ export class DifficultyListPublicDto {
   title!: string;
 
   @Expose()
-  @ApiProperty({ type: 'string', format: 'binary' })
+  @ApiProperty()
   icon!: string;
 }

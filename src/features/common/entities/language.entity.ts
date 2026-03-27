@@ -1,6 +1,7 @@
 import { Column, Entity, OneToMany } from 'typeorm';
 import { BaseModel } from '@/core/base-model.entity';
 import { Course } from '../../courses/entities/course.entity';
+import { Book } from '@/features/library/entities/book.entity';
 
 @Entity('languages')
 export class Language extends BaseModel {
@@ -12,4 +13,7 @@ export class Language extends BaseModel {
 
   @OneToMany(() => Course, (course) => course.language)
   courses?: Course[];
+
+  @OneToMany(() => Book, (book) => book.language)
+  books?: Book[];
 }

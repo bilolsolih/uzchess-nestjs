@@ -1,4 +1,4 @@
-import {BaseModel} from '../../../core/base-model.entity';
+import {BaseModel} from '@/core/base-model.entity';
 import {Column, Entity} from 'typeorm';
 
 @Entity('news')

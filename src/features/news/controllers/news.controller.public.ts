@@ -4,7 +4,7 @@ import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { NewsServicePublic } from '../services/news.service.public';
 import { NewsListDtoPublic } from '../dtos/news/public/news.list.dto.public';
 import { NewsDetailDtoPublic } from '../dtos/news/public/news.detail.dto.public';
-import getFullPath from '../../../core/utils/get-full-path';
+import getFullPath from '@/core/utils/get-full-path';
 
 @ApiTags('News - Public')
 @Controller('public/news')

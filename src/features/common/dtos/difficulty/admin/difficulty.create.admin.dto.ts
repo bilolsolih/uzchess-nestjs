@@ -1,6 +1,6 @@
 import { Expose } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, MaxLength } from 'class-validator';
+import { Allow, IsString, MaxLength } from 'class-validator';
 
 export class DifficultyCreateAdminDto {
   @IsString()
@@ -9,8 +9,8 @@ export class DifficultyCreateAdminDto {
   @ApiProperty()
   title!: string;
 
-  @IsString()
   @Expose()
+  @Allow()
   @ApiProperty({ type: 'string', format: 'binary' })
   icon!: string;
 }
