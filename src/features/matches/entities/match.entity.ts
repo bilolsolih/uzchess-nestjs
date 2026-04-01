@@ -1,8 +1,8 @@
-import {BaseModel} from '../../../core/base-model.entity';
+import {BaseModel} from '@/core/base-model.entity';
 import {Column, Entity, JoinColumn, ManyToOne} from 'typeorm';
 import {Player} from './player.entity';
-import {MatchType} from '../../../core/enums/match-type.enum';
-import {WinnerType} from '../../../core/enums/winner-type.enum';
+import {MatchType} from '@/core/enums/match-type.enum';
+import {WinnerType} from '@/core/enums/winner-type.enum';
 
 @Entity('matches')
 export class Match extends BaseModel {

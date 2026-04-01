@@ -33,6 +33,6 @@ export class CourseCreateAdminDto {
 
   @IsNumber()
   @IsOptional()
-  @ApiProperty()
+  @ApiProperty({ required: false })
   newPrice?: number;
 }

@@ -2,12 +2,12 @@ import { Body, Controller, Post } from '@nestjs/common';
 import { SignInDto } from '../../dtos/user/public/sign-in.dto';
 import { AuthenticationPublicService } from '../../services/user/authentication.public.service';
 import { SignUpDto } from '../../dtos/user/public/sign-up.dto';
-import { ResendOtpDto } from '../../dtos/user/public/resend-otp.dto';
-import { VerifyOtpDto } from '../../dtos/user/public/verify-otp.dto';
+import { ResendOtpDto } from '@/features/authentication/dtos/user';
+import { VerifyOtpDto } from '@/features/authentication/dtos/user';
 import { SetPasswordDto } from '@/features/authentication/dtos/user';
 
 @Controller('auth')
-export class AuthenticationPublicController {
+export class AuthenticationPublicController{
   constructor(private readonly authService: AuthenticationPublicService) {}
 
   @Post('sign-up')

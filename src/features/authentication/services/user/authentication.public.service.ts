@@ -1,10 +1,4 @@
-import {
-  BadRequestException,
-  Injectable,
-  InternalServerErrorException,
-  NotFoundException,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '../../entities/user.entity';
 import argon2 from 'argon2';
@@ -13,7 +7,6 @@ import { ResendOtpDto, SetPasswordDto, SignInDto, SignUpDto, VerifyOtpDto } from
 import { OtpType } from '@/core/enums/otp-type.enum';
 import { OtpCode } from '@/features/authentication/entities/otp-code.entity';
 import { ILike } from 'typeorm';
-
 
 @Injectable()
 export class AuthenticationPublicService {
@@ -24,14 +17,20 @@ export class AuthenticationPublicService {
   }
 
   async signUp(payload: SignUpDto) {
-    let user = await User.countBy({ login: payload.login });
-    if (user) {
+    let user = await User.findOneBy({ login: ILike(payload.login) });
+
+    if (user && user.isActive && user.isVerified) {
       throw new BadRequestException('User with given login already exists');
     }
 
-    let newUser = User.create(payload as User);
-    await User.save(newUser);
-    await this.otpService.sendOtp(newUser, OtpType.Register);
+
+    if (user) {
+      user.fullName = payload.fullName;
+    } else {
+      user = User.create(payload as User);
+    }
+    await User.save(user);
+    await this.otpService.sendOtp(user, OtpType.Register);
   }
 
   async signIn({ login, password }: SignInDto) {
@@ -42,11 +41,6 @@ export class AuthenticationPublicService {
 
     if (!user.isActive || !user.isVerified) {
       throw new UnauthorizedException();
-    }
-
-    let secretKey = process.env.SECRET_KEY;
-    if (!secretKey) {
-      throw new InternalServerErrorException('No secret key found');
     }
 
     let passwordsMatch = await argon2.verify(user.password, password);
@@ -66,7 +60,7 @@ export class AuthenticationPublicService {
   }
 
   async verifyOtp({ login, code }: VerifyOtpDto) {
-    let user = await User.findOneBy({ login });
+    let user = await User.findOneBy({ login: ILike(login) });
     if (!user) {
       throw new BadRequestException('User with given login does not exist');
     }
@@ -81,7 +75,7 @@ export class AuthenticationPublicService {
   }
 
   async setPassword(payload: SetPasswordDto) {
-    let user = await User.findOneBy({ login: payload.login });
+    let user = await User.findOneBy({ login: ILike(payload.login) });
     if (!user) {
       throw new NotFoundException('Does not exist');
     }
@@ -98,7 +92,7 @@ export class AuthenticationPublicService {
   }
 
   async resendOtp({ login, loginType }: ResendOtpDto) {
-    let user = await User.findOneBy({ login, loginType });
+    let user = await User.findOneBy({ login: ILike(login), loginType });
     if (!user) {
       throw new NotFoundException('User with given login and loginType does not exist');
     }
@@ -120,5 +114,3 @@ export class AuthenticationPublicService {
     await this.otpService.sendOtp(user, OtpType.Register);
   }
 }
-
-// k6 - Go - performance test

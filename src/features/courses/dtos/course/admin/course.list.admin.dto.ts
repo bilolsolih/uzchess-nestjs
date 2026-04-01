@@ -49,4 +49,8 @@ export class CourseListAdminDto {
   @Expose()
   @ApiProperty()
   rating?: number;
+
+  @Expose()
+  @ApiProperty()
+  isLiked!: boolean;
 }

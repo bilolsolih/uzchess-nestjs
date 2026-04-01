@@ -1,6 +1,5 @@
 import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
 import { Request } from 'express';
-import { Observable } from 'rxjs';
 import { JwtService } from '@nestjs/jwt';
 import { Reflector } from '@nestjs/core';
 import { RolesKey } from '../decorators/roles.decorator';
@@ -10,8 +9,10 @@ export class AuthenticationGuard implements CanActivate {
   constructor(
     private readonly jwtService: JwtService,
     private readonly reflector: Reflector,
-  ) {}
-  canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
+  ) {
+  }
+
+  canActivate(context: ExecutionContext) {
     let roles = this.reflector.getAllAndOverride(RolesKey, [context.getHandler(), context.getClass()]);
     if (!roles) {
       return true;

@@ -8,6 +8,7 @@ import { AuthenticationModule } from './features/authentication/authentication.m
 import { AuthenticationGuard } from './core/guards/authentication.guard';
 import { NewsModule } from './features/news/news.module';
 import { CommonModule } from '@/features/common/common.module';
+import { CoursesModule } from '@/features/courses/courses.module';
 
 @Module({
   providers: [
@@ -17,6 +18,7 @@ import { CommonModule } from '@/features/common/common.module';
   imports: [
     TypeOrmModule.forRoot(typeOrmConfig),
     AuthenticationModule,
+    CoursesModule,
     LibraryModule,
     NewsModule,
     CommonModule,

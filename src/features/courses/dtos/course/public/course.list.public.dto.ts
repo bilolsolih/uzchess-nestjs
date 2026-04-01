@@ -49,4 +49,8 @@ export class CourseListPublicDto {
   @Expose()
   @ApiProperty()
   rating?: number;
+
+  @Expose()
+  @ApiProperty()
+  isLiked!: boolean;
 }

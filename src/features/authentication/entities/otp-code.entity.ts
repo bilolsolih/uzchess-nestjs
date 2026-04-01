@@ -1,6 +1,6 @@
-import {BaseModel} from '../../../core/base-model.entity';
+import {BaseModel} from '@/core/base-model.entity';
 import {Column, Entity, ManyToOne} from 'typeorm';
-import {OtpType} from '../../../core/enums/otp-type.enum';
+import {OtpType} from '@/core/enums/otp-type.enum';
 import {User} from './user.entity';
 
 @Entity('otpCodes')

@@ -1,4 +1,4 @@
-import {BaseModel} from '../../../core/base-model.entity';
+import {BaseModel} from '@/core/base-model.entity';
 import {Column, Entity, JoinColumn, ManyToOne} from 'typeorm';
 import {User} from '../../authentication/entities/user.entity';
 import {Course} from './course.entity';

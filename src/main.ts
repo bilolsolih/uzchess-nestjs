@@ -9,6 +9,7 @@ import morgan from 'morgan';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  app.enableCors({origin: "*"});
   configureSwagger(app);
   app.useGlobalPipes(
     new ValidationPipe({

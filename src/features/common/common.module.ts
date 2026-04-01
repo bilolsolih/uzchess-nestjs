@@ -5,6 +5,8 @@ import { DifficultyAdminService } from '@/features/common/services/difficulty/di
 import { DifficultyAdminController } from '@/features/common/controllers/difficulty/difficulty.admin.controller';
 import { LanguageAdminService } from '@/features/common/services/language/language.admin.service';
 import { LanguagePublicService } from '@/features/common/services/language/language.public.service';
+import { LanguageAdminController } from '@/features/common/controllers/language/language.admin.controller';
+import { LanguagePublicController } from '@/features/common/controllers/language/language.public.controller';
 
 @Module({
   providers: [
@@ -16,6 +18,8 @@ import { LanguagePublicService } from '@/features/common/services/language/langu
   controllers: [
     AuthorAdminController,
     DifficultyAdminController,
+    LanguageAdminController,
+    LanguagePublicController,
   ],
 })
 export class CommonModule {

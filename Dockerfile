@@ -1,4 +1,4 @@
-FROM node:25-alpine as builder
+FROM node:25-alpine AS builder
 
 WORKDIR /app
 
@@ -20,6 +20,6 @@ RUN npm install --omit=dev
 
 COPY --from=builder /app/dist ./dist
 
-EXPOSE 8888
+RUN npm install -g pm2
 
-CMD ["node", "dist/main.js"]
+CMD ["pm2", "start dist/main.js"]
