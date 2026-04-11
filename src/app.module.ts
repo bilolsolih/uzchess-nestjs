@@ -9,6 +9,12 @@ import { AuthenticationGuard } from './core/guards/authentication.guard';
 import { NewsModule } from './features/news/news.module';
 import { CommonModule } from '@/features/common/common.module';
 import { CoursesModule } from '@/features/courses/courses.module';
+import { jwtModuleConfig } from '@/configs/jwt-module.config';
+import { JwtModule } from '@nestjs/jwt';
+import { ChatModule } from '@/features/chat/chat.module';
+import { ConfigModule } from '@nestjs/config';
+import { configModuleOptions } from '@/configs/env.config';
+
 
 @Module({
   providers: [
@@ -16,12 +22,15 @@ import { CoursesModule } from '@/features/courses/courses.module';
     { provide: APP_GUARD, useClass: RolesGuard },
   ],
   imports: [
+    JwtModule.register(jwtModuleConfig),
     TypeOrmModule.forRoot(typeOrmConfig),
+    ConfigModule.forRoot(configModuleOptions),
     AuthenticationModule,
     CoursesModule,
     LibraryModule,
     NewsModule,
     CommonModule,
+    ChatModule,
   ],
 })
 export class AppModule {

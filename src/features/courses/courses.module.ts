@@ -10,6 +10,7 @@ import {
 import { CourseAdminService } from '@/features/courses/services/course/course.admin.service';
 import { CoursePublicService } from '@/features/courses/services/course/course.public.service';
 import { CourseAdminController } from '@/features/courses/controllers/course/course.admin.controller';
+import { CoursePublicController } from '@/features/courses/controllers/course/course.public.controller';
 
 
 @Module({
@@ -24,7 +25,7 @@ import { CourseAdminController } from '@/features/courses/controllers/course/cou
     CourseCategoryAdminController,
     CourseCategoryPublicController,
     CourseAdminController,
-
+    CoursePublicController,
     CourseLikePublicController,
   ],
 })

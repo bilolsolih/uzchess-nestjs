@@ -6,7 +6,7 @@ import {
   Param,
   ParseIntPipe,
   Patch,
-  Post,
+  Post, Query,
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
@@ -20,6 +20,7 @@ import { Roles } from '@/core/decorators/roles.decorator';
 import { Role } from '@/core/enums/role.enum';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { storageOptions } from '@/configs/multer.configs';
+import { NewsFilters } from '@/features/news/filters/news.filters';
 
 @Controller('admin/news')
 @Roles(Role.Admin, Role.SuperAdmin)
@@ -38,13 +39,13 @@ export class NewsControllerAdmin {
 
   @Get()
   @ApiOkResponse({ type: () => NewsListDtoAdmin, isArray: true })
-  async findAll(): Promise<NewsListDtoAdmin[]> {
+  async getAll(@Query() filters: NewsFilters) {
     return await this.service.findAll();
   }
 
   @Get(':id')
   @ApiOkResponse({ type: () => NewsDetailDtoAdmin })
-  async findOne(@Param('id', ParseIntPipe) id: number): Promise<NewsDetailDtoAdmin> {
+  async getOne(@Param('id', ParseIntPipe) id: number): Promise<NewsDetailDtoAdmin> {
     return await this.service.findOne(id);
   }
 

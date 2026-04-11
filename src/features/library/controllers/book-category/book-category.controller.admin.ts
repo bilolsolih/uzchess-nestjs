@@ -3,14 +3,16 @@ import { BookCategoryCreateDtoAdmin } from '../../dtos/book-category/admin/book-
 import { BookCategoryServiceAdmin } from '../../services/book-category/book-category.service.admin';
 import { BookCategoryUpdateDtoAdmin } from '../../dtos/book-category/admin/book-category.update.dto.admin';
 import { BookCategoryListDtoAdmin } from '../../dtos/book-category/admin/book-category.list.dto.admin';
-import { ApiOkResponse } from '@nestjs/swagger';
-import { Roles } from '../../../../core/decorators/roles.decorator';
-import { Role } from '../../../../core/enums/role.enum';
+import { ApiBearerAuth, ApiOkResponse } from '@nestjs/swagger';
+import { Roles } from '@/core/decorators/roles.decorator';
+import { Role } from '@/core/enums/role.enum';
 
+@ApiBearerAuth()
 @Controller('admin/book-category')
 @Roles(Role.Admin, Role.SuperAdmin)
 export class BookCategoryControllerAdmin {
-  constructor(private readonly service: BookCategoryServiceAdmin) {}
+  constructor(private readonly service: BookCategoryServiceAdmin) {
+  }
 
   @Post()
   async create(@Body() payload: BookCategoryCreateDtoAdmin) {

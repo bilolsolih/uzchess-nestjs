@@ -6,10 +6,11 @@ import { configureSwagger } from './configs/swagger.config';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
 import morgan from 'morgan';
+import { GlobalFilter } from '@/core/filters/global.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
-  app.enableCors({origin: "*"});
+  app.enableCors({ origin: '*' });
   configureSwagger(app);
   app.useGlobalPipes(
     new ValidationPipe({
@@ -18,6 +19,7 @@ async function bootstrap() {
       transform: true,
     }),
   );
+  app.useGlobalFilters(new GlobalFilter());
   app.use(morgan('dev'));
 
   app.useStaticAssets(join(__dirname, '..', 'uploads'), { prefix: '/uploads/' });
@@ -26,3 +28,5 @@ async function bootstrap() {
 }
 
 bootstrap();
+// Layered architecture
+// DDD - Domain-Driven Design

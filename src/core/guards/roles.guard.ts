@@ -21,7 +21,7 @@ export class RolesGuard implements CanActivate {
     }
 
     if (!roles.includes(user.role)){
-      throw new ForbiddenException('For admins only')
+      throw new ForbiddenException()
     }
 
     return true;

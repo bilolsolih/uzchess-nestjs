@@ -2,9 +2,16 @@ import { BaseModel } from '@/core/base-model.entity';
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { ReportCategory } from './report-category.entity';
 import { ReportType } from '@/core/enums/report-type.enum';
+import { User } from '@/features/authentication/entities/user.entity';
 
 @Entity('reports')
 export class Report extends BaseModel {
+  @Column()
+  userId!: number;
+
+  @ManyToOne(() => User, user => user.reports)
+  user?: User;
+
   @Column()
   categoryId!: number;
 

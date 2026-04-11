@@ -1,14 +1,14 @@
 import type { Request } from 'express';
-import { Body, Controller, Delete, Param, ParseIntPipe, Post, Req, UseGuards } from '@nestjs/common';
+import { Controller, Param, ParseIntPipe, Post, Req } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { CourseLikePublicService } from '@/features/courses/services/course-like/course-like.public.service';
-import { CourseLikeCreatePublicDto } from '@/features/courses/dtos/course-like/public/course-like.create.public.dto';
-import { AuthenticationGuard } from '@/core/guards/authentication.guard';
+import { Roles } from '@/core/decorators/roles.decorator';
+import { Role } from '@/core/enums/role.enum';
 
 @ApiTags('CourseLike - Public')
 @ApiBearerAuth()
 @Controller('public/course-like')
-@UseGuards(AuthenticationGuard)
+@Roles(Role.User)
 export class CourseLikePublicController {
   constructor(private readonly service: CourseLikePublicService) {
   }

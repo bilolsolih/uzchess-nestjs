@@ -23,7 +23,6 @@ export class AuthenticationPublicService {
       throw new BadRequestException('User with given login already exists');
     }
 
-
     if (user) {
       user.fullName = payload.fullName;
     } else {

@@ -5,10 +5,16 @@ import { plainToInstance } from 'class-transformer';
 import { DifficultyListAdminDto } from '@/features/common/dtos/difficulty/admin/difficulty.list.admin.dto';
 import { DifficultyUpdateAdminDto } from '@/features/common/dtos/difficulty/admin/difficulty.update.admin.dto';
 import { ILike, Not } from 'typeorm';
+import { ConfigService } from '@nestjs/config';
 
 
 @Injectable()
 export class DifficultyAdminService {
+  // Dependency Injection
+  constructor(private readonly config: ConfigService) {
+  }
+
+
   async create(payload: DifficultyCreateAdminDto, icon: Express.Multer.File) {
     const alreadyExists = await Difficulty.countBy({ title: payload.title });
     if (alreadyExists) {
@@ -23,7 +29,7 @@ export class DifficultyAdminService {
   async getAll() {
     const rawDifficulties = await Difficulty.find();
     for (let difficulty of rawDifficulties) {
-      difficulty.icon = 'http://localhost:8888/' + difficulty.icon;
+      difficulty.icon = this.config.getOrThrow<string>('BASE_URL') + '/' + difficulty.icon;
     }
     return plainToInstance(DifficultyListAdminDto, rawDifficulties);
   }

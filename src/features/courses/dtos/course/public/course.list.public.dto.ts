@@ -53,4 +53,8 @@ export class CourseListPublicDto {
   @Expose()
   @ApiProperty()
   isLiked!: boolean;
+
+  @Expose()
+  @ApiProperty()
+  sectionsCount!: number;
 }

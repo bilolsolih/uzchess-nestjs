@@ -20,6 +20,4 @@ RUN npm install --omit=dev
 
 COPY --from=builder /app/dist ./dist
 
-RUN npm install -g pm2
-
-CMD ["pm2", "start dist/main.js"]
+CMD ["node", "dist/main.js"]

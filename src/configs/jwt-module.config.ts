@@ -4,6 +4,7 @@ export const jwtModuleConfig: JwtModuleOptions = {
   global: true,
   secret: process.env.SECRET_KEY,
   signOptions: {
-    expiresIn: '3h',
+    // @ts-ignore
+    expiresIn: process.env.JWT_EXPIRE,
   },
 };

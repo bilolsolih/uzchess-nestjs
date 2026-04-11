@@ -106,7 +106,6 @@ export class CourseAdminService {
       }
     }
 
-    const courses2 = await Course.find({ relations: { likes: true }, where: { likes: { userId: userId! } } });
     return plainToInstance(CourseListAdminDto, courses, { excludeExtraneousValues: true });
   }
 

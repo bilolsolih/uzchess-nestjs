@@ -36,13 +36,13 @@ export class DifficultyAdminController {
   }
 
   @Get()
-  @ApiOkResponse({ type: () => DifficultyListAdminDto, isArray: true })
+  @ApiOkResponse({ type: [DifficultyListAdminDto]})
   async getAll() {
     return await this.service.getAll();
   }
 
   @Get(':id')
-  @ApiOkResponse({ type: () => DifficultyListAdminDto })
+  @ApiOkResponse({ type: DifficultyListAdminDto })
   async getOne(@Param('id', ParseIntPipe) id: number) {
     return await this.service.getOne(id);
   }

@@ -1,10 +1,11 @@
 import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
-import { Request } from 'express';
 import { JwtService } from '@nestjs/jwt';
 import { Reflector } from '@nestjs/core';
-import { RolesKey } from '../decorators/roles.decorator';
+import { RolesKey } from '@/core/decorators/roles.decorator';
+import { Numbers } from '@/core/decorators/numbers.decorator';
 
 @Injectable()
+@Numbers(1, 2, 3, 4)
 export class AuthenticationGuard implements CanActivate {
   constructor(
     private readonly jwtService: JwtService,
@@ -12,33 +13,35 @@ export class AuthenticationGuard implements CanActivate {
   ) {
   }
 
-  canActivate(context: ExecutionContext) {
-    let roles = this.reflector.getAllAndOverride(RolesKey, [context.getHandler(), context.getClass()]);
+  async canActivate(context: ExecutionContext) {
+    const roles = this.reflector.getAllAndOverride(RolesKey, [context.getHandler(), context.getClass()]);
     if (!roles) {
       return true;
     }
 
-    let request: Request = context.switchToHttp().getRequest();
-    if (!request.headers.authorization) {
-      throw new UnauthorizedException();
+    const req = context.switchToHttp().getRequest();
+    let header: string | undefined;
+    if (req.headers && req.headers.authorization) {
+      header = req.headers.authorization;
+
+    } else if (req.handshake && req.handshake.headers.authorization) {
+      header = req.handshake.headers.authorization;
     }
 
-    let [bearer, token] = request.headers.authorization.split(' ');
-
-    if (bearer.toLowerCase() !== 'bearer') {
-      throw new UnauthorizedException();
+    if (!header) {
+      throw new UnauthorizedException('Credentials not found');
     }
 
-    if (!token) {
-      throw new UnauthorizedException();
+    const [bearer, token] = header.split(' ');
+    if (!bearer || !token || bearer.toLowerCase() !== 'bearer') {
+      throw new UnauthorizedException('Wrong credentials format');
     }
 
     try {
-      // @ts-ignore
-      request.user = this.jwtService.verify(token);
+      req.user = await this.jwtService.verify(token);
       return true;
     } catch (exc) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException('Invalid token');
     }
   }
 }
