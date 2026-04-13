@@ -30,6 +30,8 @@ export class AuthenticationPublicService {
     }
     await User.save(user);
     await this.otpService.sendOtp(user, OtpType.Register);
+
+    return user;
   }
 
   async signIn({ login, password }: SignInDto) {
@@ -71,6 +73,7 @@ export class AuthenticationPublicService {
 
     user.isVerified = true;
     await User.save(user);
+    return user;
   }
 
   async setPassword(payload: SetPasswordDto) {
@@ -88,6 +91,7 @@ export class AuthenticationPublicService {
     user.isActive = true;
 
     await User.save(user);
+    return { message: 'Ok' };
   }
 
   async resendOtp({ login, loginType }: ResendOtpDto) {
@@ -111,5 +115,6 @@ export class AuthenticationPublicService {
     }
 
     await this.otpService.sendOtp(user, OtpType.Register);
+    return { message: 'Ok' };
   }
 }

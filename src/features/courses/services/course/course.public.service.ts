@@ -39,7 +39,6 @@ export class CoursePublicService {
     const totalPages = Math.ceil(totalCount / take);
     const nextPage = currentPage < totalPages ? currentPage + 1 : null;
 
-
     const courses = await Course.find({
       relations: ['author', 'category', 'language', 'difficulty'],
       where: whereOptions, skip: skip, take: take,

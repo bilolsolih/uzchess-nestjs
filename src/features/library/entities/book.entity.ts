@@ -37,7 +37,7 @@ export class Book extends BaseModel {
   @JoinColumn({ name: 'difficultyId' })
   difficulty?: Difficulty;
 
-  @Column({ length: 128 })
+  @Column({ length: 256 })
   title!: string;
 
   @Column({ length: 128, nullable: true })

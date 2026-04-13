@@ -21,7 +21,7 @@ export class NewsControllerPublic {
     // @ts-ignore
     result.data.forEach((item) => (item.image = getFullPath(req, item.image)));
 
-    return result;
+    return res.json(result);
   }
 
   @Get(':id')

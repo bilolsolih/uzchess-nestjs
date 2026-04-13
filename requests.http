@@ -10,3 +10,25 @@ Content-Type: application/json
 {
   "fullName": "Kimdurjonbekxon"
 }
+
+###
+
+POST http://localhost:8888/auth/sign-up
+Content-Type: application/json
+
+{
+  "fullName": "SolihCoder123",
+  "login": "login123@gmail.com",
+  "loginType": "email"
+}
+
+###
+
+POST http://localhost:8888/auth/verify-otp
+Content-Type: application/json
+
+{
+  "login": "login123@gmail.com",
+  "code": "762055"
+}
+

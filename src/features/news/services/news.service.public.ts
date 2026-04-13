@@ -37,6 +37,9 @@ export class NewsServicePublic {
     if (!news) {
       throw new NotFoundException();
     }
+    if (news.image) {
+      news.image = this.config.getOrThrow<string>('BASE_URL') + '/' + news.image;
+    }
     let data = plainToInstance(NewsDetailDtoPublic, news, { excludeExtraneousValues: true });
     return data;
   }
