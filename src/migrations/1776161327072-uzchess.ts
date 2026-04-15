@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class Uzchess1775882801585 implements MigrationInterface {
-    name = 'Uzchess1775882801585'
+export class Uzchess1776161327072 implements MigrationInterface {
+    name = 'Uzchess1776161327072'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`CREATE TABLE "reportCategories" ("id" SERIAL NOT NULL, "created" TIMESTAMP NOT NULL DEFAULT now(), "updated" TIMESTAMP DEFAULT now(), "title" character varying(64) NOT NULL, "order" integer, CONSTRAINT "UQ_ac74492c6fc090dbdb3d8051909" UNIQUE ("title"), CONSTRAINT "PK_0d1e145a1234417e2c77eba879b" PRIMARY KEY ("id"))`);
@@ -20,7 +20,7 @@ export class Uzchess1775882801585 implements MigrationInterface {
         await queryRunner.query(`CREATE TABLE "authors" ("id" SERIAL NOT NULL, "created" TIMESTAMP NOT NULL DEFAULT now(), "updated" TIMESTAMP DEFAULT now(), "fullName" character varying(64) NOT NULL, CONSTRAINT "PK_d2ed02fabd9b52847ccb85e6b88" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "bookCategories" ("id" SERIAL NOT NULL, "created" TIMESTAMP NOT NULL DEFAULT now(), "updated" TIMESTAMP DEFAULT now(), "title" character varying(64) NOT NULL, CONSTRAINT "UQ_2556e7db3ce3525a0104f73e94b" UNIQUE ("title"), CONSTRAINT "PK_ea689f47d8e96f5545bcdb411b1" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "bookLikes" ("id" SERIAL NOT NULL, "created" TIMESTAMP NOT NULL DEFAULT now(), "updated" TIMESTAMP DEFAULT now(), "userId" integer NOT NULL, "bookId" integer NOT NULL, CONSTRAINT "PK_9018b62069141f395e0d99c65bf" PRIMARY KEY ("id"))`);
-        await queryRunner.query(`CREATE TABLE "books" ("id" SERIAL NOT NULL, "created" TIMESTAMP NOT NULL DEFAULT now(), "updated" TIMESTAMP DEFAULT now(), "authorId" integer NOT NULL, "categoryId" integer NOT NULL, "languageId" integer NOT NULL, "difficultyId" integer NOT NULL, "title" character varying(128) NOT NULL, "image" character varying(128), "description" text NOT NULL, "price" numeric(12,2) NOT NULL, "newPrice" numeric(12,2), "rating" numeric(2,1), "reviewsCount" integer NOT NULL DEFAULT '0', "pages" integer NOT NULL, "pubDate" date NOT NULL, CONSTRAINT "PK_f3f2f25a099d24e12545b70b022" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE TABLE "books" ("id" SERIAL NOT NULL, "created" TIMESTAMP NOT NULL DEFAULT now(), "updated" TIMESTAMP DEFAULT now(), "authorId" integer NOT NULL, "categoryId" integer NOT NULL, "languageId" integer NOT NULL, "difficultyId" integer NOT NULL, "title" character varying(256) NOT NULL, "image" character varying(128), "description" text NOT NULL, "price" numeric(12,2) NOT NULL, "newPrice" numeric(12,2), "rating" numeric(2,1), "reviewsCount" integer NOT NULL DEFAULT '0', "pages" integer NOT NULL, "pubDate" date NOT NULL, CONSTRAINT "PK_f3f2f25a099d24e12545b70b022" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "bookReviews" ("id" SERIAL NOT NULL, "created" TIMESTAMP NOT NULL DEFAULT now(), "updated" TIMESTAMP DEFAULT now(), "userId" integer NOT NULL, "bookId" integer NOT NULL, "rating" integer NOT NULL, "comment" character varying(512), CONSTRAINT "PK_fbd29f7d604cf4ba60c0f28a384" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TYPE "public"."users_role_enum" AS ENUM('user', 'admin', 'superAdmin')`);
         await queryRunner.query(`CREATE TYPE "public"."users_logintype_enum" AS ENUM('email', 'number')`);

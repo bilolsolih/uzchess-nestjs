@@ -1,4 +1,4 @@
-import {BaseModel} from '../../../core/base-model.entity';
+import {BaseModel} from '@/core/base-model.entity';
 import {Column, Entity, ManyToOne, OneToMany} from 'typeorm';
 import {Country} from '../../common/entities/country.entity';
 import {Match} from './match.entity';

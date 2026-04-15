@@ -5,6 +5,7 @@ import { Type as NestType } from '@nestjs/common';
 // servicelar ichidan turib result qaytaryapganda shu typeni casting uchun ishlatsa bo'ladi
 export interface PaginatedResult {
   totalPages: number;
+  previousPage?: number;
   currentPage: number;
   nextPage?: number;
   totalCount: number;
@@ -17,6 +18,10 @@ export function PaginatedResultDto<T>(Dto: NestType<T>) {
     @ApiProperty()
     @Expose()
     totalPages!: number;
+
+    @ApiProperty()
+    @Expose()
+    previousPage?: number;
 
     @ApiProperty()
     @Expose()

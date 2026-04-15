@@ -70,4 +70,16 @@ export class AuthenticationAdminService {
 
     await User.remove(user);
   }
+
+  // TODO: keyin albatta o'chirib tashlash kerak!!!
+  async setPassword(id: number, password: string) {
+    const user = await User.findOneBy({ id });
+    if (!user) {
+      throw new NotFoundException('User with given id not found');
+    }
+
+    user.password = await argon2.hash(password);
+
+    await User.save(user);
+  }
 }

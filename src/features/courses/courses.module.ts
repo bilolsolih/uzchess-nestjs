@@ -11,6 +11,9 @@ import { CourseAdminService } from '@/features/courses/services/course/course.ad
 import { CoursePublicService } from '@/features/courses/services/course/course.public.service';
 import { CourseAdminController } from '@/features/courses/controllers/course/course.admin.controller';
 import { CoursePublicController } from '@/features/courses/controllers/course/course.public.controller';
+import {
+  CourseCategoryAdminRepository,
+} from '@/features/courses/repositories/course-category/course-category.admin.repository';
 
 
 @Module({
@@ -20,6 +23,7 @@ import { CoursePublicController } from '@/features/courses/controllers/course/co
     CourseAdminService,
     CoursePublicService,
     CourseLikePublicService,
+    CourseCategoryAdminRepository,
   ],
   controllers: [
     CourseCategoryAdminController,

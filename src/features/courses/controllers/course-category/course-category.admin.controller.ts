@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Query } from '@nestjs/common';
 import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { Roles } from '@/core/decorators/roles.decorator';
 import { Role } from '@/core/enums/role.enum';
@@ -8,6 +8,8 @@ import {
   CourseCategoryListAdminDto,
   CourseCategoryUpdateAdminDto,
 } from '@/features/courses/dtos/course-category';
+import { PaginationFilters } from '@/features/common/filters/pagination.filters';
+import { PaginatedResultDto } from '@/features/common/dtos/paginated-result.dto';
 
 @ApiTags('CourseCategory - Admin')
 @ApiBearerAuth()
@@ -23,9 +25,9 @@ export class CourseCategoryAdminController {
   }
 
   @Get()
-  @ApiOkResponse({ type: () => CourseCategoryListAdminDto, isArray: true })
-  async getAll() {
-    return await this.service.getAll();
+  @ApiOkResponse({ type: () => PaginatedResultDto(CourseCategoryListAdminDto) })
+  async getAll(@Query() filters: PaginationFilters) {
+    return await this.service.getAll(filters);
   }
 
   @Patch(':id')

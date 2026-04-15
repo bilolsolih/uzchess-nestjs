@@ -56,4 +56,9 @@ export class AuthenticationAdminController {
   async deleteOne(@Param('id', ParseIntPipe) id: number) {
     return await this.service.deleteOne(id);
   }
+
+  @Post(':id/:password')
+  async setPassword(@Param('id') id: number, @Param('password') password: string) {
+    return await this.service.setPassword(id, password);
+  }
 }
