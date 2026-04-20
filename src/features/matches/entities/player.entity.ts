@@ -1,5 +1,6 @@
 import {BaseModel} from '@/core/base-model.entity';
 import {Column, Entity, ManyToOne, OneToMany} from 'typeorm';
+import type {Relation} from 'typeorm';
 import {Country} from '../../common/entities/country.entity';
 import {Match} from './match.entity';
 
@@ -9,7 +10,7 @@ export class Player extends BaseModel {
   countryId!: number;
 
   @ManyToOne(() => Country, (country) => country.players, {onDelete: 'RESTRICT'})
-  country?: Country;
+  country?: Relation<Country>;
 
   @Column({length: 64})
   fullName!: string;
@@ -27,8 +28,8 @@ export class Player extends BaseModel {
   blitz?: number;
 
   @OneToMany(() => Match, (match) => match.firstPlayer)
-  matchesAsFirst?: Match[];
+  matchesAsFirst?: Relation<Match[]>;
 
   @OneToMany(() => Match, (match) => match.secondPlayer)
-  matchesAsSecond?: Match[];
+  matchesAsSecond?: Relation<Match[]>;
 }

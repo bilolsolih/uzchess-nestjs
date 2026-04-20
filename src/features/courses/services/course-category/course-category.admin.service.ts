@@ -18,7 +18,7 @@ export class CourseCategoryAdminService {
 
   async create(payload: CourseCategoryCreateAdminDto) {
     const courseCategory = payload as CourseCategory;
-    return await this.repo.create(courseCategory);
+    return await this.repo.save(courseCategory);
   }
 
   async updateOne(id: number, payload: CourseCategoryUpdateAdminDto) {

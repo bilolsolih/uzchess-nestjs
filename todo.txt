@@ -1,0 +1,3 @@
+Hozirda Filelar bilan ishlash uchun bitta FileService yozib olishim kerak
+Multerni shunga qarab sozlab chiqishim kerak
+Book uchun service va controllerlarni tugatishim kerak

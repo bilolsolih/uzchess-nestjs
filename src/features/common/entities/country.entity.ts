@@ -1,4 +1,5 @@
 import {Column, Entity, OneToMany} from 'typeorm';
+import type {Relation} from 'typeorm';
 import {BaseModel} from '@/core/base-model.entity';
 import {Player} from '../../matches/entities/player.entity';
 
@@ -11,5 +12,5 @@ export class Country extends BaseModel {
   flag!: string;
 
   @OneToMany(() => Player, (player) => player.country)
-  players?: Player[];
+  players?: Relation<Player[]>;
 }

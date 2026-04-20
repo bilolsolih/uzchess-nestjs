@@ -1,4 +1,5 @@
 import {Column, Entity, JoinColumn, ManyToOne, OneToMany} from 'typeorm';
+import type {Relation} from 'typeorm';
 import {BaseModel} from '@/core/base-model.entity';
 import {Author} from '../../common/entities/author.entity';
 import {Language} from '../../common/entities/language.entity';
@@ -17,28 +18,28 @@ export class Course extends BaseModel {
 
   @ManyToOne(() => Author, (author) => author.courses, {onDelete: 'RESTRICT'})
   @JoinColumn({name: 'authorId'})
-  author?: Author;
+  author?: Relation<Author>;
 
   @Column()
   categoryId!: number;
 
   @ManyToOne(() => CourseCategory, (category) => category.courses, {onDelete: 'RESTRICT'})
   @JoinColumn({name: 'categoryId'})
-  category?: CourseCategory;
+  category?: Relation<CourseCategory>;
 
   @Column()
   languageId!: number;
 
   @ManyToOne(() => Language, (language) => language.courses, {onDelete: 'RESTRICT'})
   @JoinColumn({name: 'languageId'})
-  language?: Language;
+  language?: Relation<Language>;
 
   @Column()
   difficultyId!: number;
 
   @ManyToOne(() => Difficulty, (difficulty) => difficulty.courses, {onDelete: 'RESTRICT'})
   @JoinColumn({name: 'difficultyId'})
-  difficulty?: Difficulty;
+  difficulty?: Relation<Difficulty>;
 
   @Column({length: 128})
   title!: string;
@@ -65,17 +66,17 @@ export class Course extends BaseModel {
   lessonsCount!: number;
 
   @OneToMany(() => CourseSection, (courseSection) => courseSection.course)
-  sections?: CourseSection[];
+  sections?: Relation<CourseSection[]>;
 
   @OneToMany(() => CourseLesson, (lesson) => lesson.course)
-  lessons?: CourseLesson[];
+  lessons?: Relation<CourseLesson[]>;
 
   @OneToMany(() => CourseReview, (review) => review.course)
-  reviews?: CourseReview[];
+  reviews?: Relation<CourseReview[]>;
 
   @OneToMany(() => CourseLike, (like) => like.course)
-  likes?: CourseLike[];
+  likes?: Relation<CourseLike[]>;
 
   @OneToMany(() => CoursePurchase, (purchase) => purchase.course)
-  purchases?: CoursePurchase[];
+  purchases?: Relation<CoursePurchase[]>;
 }

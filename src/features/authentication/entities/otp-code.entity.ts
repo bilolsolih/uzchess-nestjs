@@ -1,5 +1,6 @@
 import {BaseModel} from '@/core/base-model.entity';
 import {Column, Entity, ManyToOne} from 'typeorm';
+import type {Relation} from 'typeorm';
 import {OtpType} from '@/core/enums/otp-type.enum';
 import {User} from './user.entity';
 
@@ -9,7 +10,7 @@ export class OtpCode extends BaseModel {
   userId!: number;
 
   @ManyToOne(() => User, (user) => user.otpCodes, {onDelete: 'CASCADE'})
-  user?: User;
+  user?: Relation<User>;
 
   @Column({length: 6})
   code!: string;

@@ -8,4 +8,5 @@ const AppDataSource = new DataSource({
   entities: ['dist/**/*.entity.js'],
   migrations: ['dist/migrations/*.js'],
 });
+
 export default AppDataSource;

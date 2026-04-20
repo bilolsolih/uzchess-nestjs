@@ -1,23 +1,13 @@
-FROM node:25-alpine AS builder
-
-WORKDIR /app
-
-COPY package.json ./
-
-RUN npm install
-
-COPY . .
-
-RUN npm run build
-
 FROM node:25-alpine
 
 WORKDIR /app
 
 COPY package.json ./
 
-RUN npm install --omit=dev
+COPY package-lock.json ./
 
-COPY --from=builder /app/dist ./dist
+RUN npm install
 
-CMD ["node", "dist/main.js"]
+COPY . .
+
+RUN npm run build

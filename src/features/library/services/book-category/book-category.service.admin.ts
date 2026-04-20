@@ -3,20 +3,20 @@ import { BookCategory } from '../../entities/book-category.entity';
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { BookCategoryUpdateDtoAdmin } from '../../dtos/book-category/admin/book-category.update.dto.admin';
 import { Not } from 'typeorm';
-import { plainToInstance } from 'class-transformer';
-import { BookCategoryListDtoAdmin } from '../../dtos/book-category/admin/book-category.list.dto.admin';
+import { CommandBus, QueryBus } from '@nestjs/cqrs';
+import { BookCategoryCreateCommand } from '@/features/library/commands/book-category/book-category-create.command';
+import { PaginationFilters } from '@/features/common/filters/pagination.filters';
+import { BookCategoryGetAllQuery } from '@/features/library/queries/book-category/book-category.get-all.query';
 
 @Injectable()
 export class BookCategoryServiceAdmin {
-  async create(payload: BookCategoryCreateDtoAdmin): Promise<BookCategory> {
-    let alreadyExists = await BookCategory.countBy({ title: payload.title });
-    if (alreadyExists) {
-      throw new BadRequestException('Already exists');
-    }
+  constructor(
+    private readonly commandBus: CommandBus,
+    private readonly queryBus: QueryBus,
+  ) {}
 
-    let newBookCategory = BookCategory.create(payload as BookCategory);
-    await BookCategory.save(newBookCategory);
-    return newBookCategory;
+  async create(payload: BookCategoryCreateDtoAdmin){
+    return await this.commandBus.execute(new BookCategoryCreateCommand(payload));
   }
 
   async update(id: number, payload: BookCategoryUpdateDtoAdmin): Promise<BookCategory> {
@@ -35,10 +35,8 @@ export class BookCategoryServiceAdmin {
     return bookCategory;
   }
 
-  async findAll(): Promise<BookCategoryListDtoAdmin[]> {
-    let bookCategories = await BookCategory.find();
-    let data = plainToInstance(BookCategoryListDtoAdmin, bookCategories, { excludeExtraneousValues: true });
-    return data;
+  async getAll(filters: PaginationFilters){
+    return await this.queryBus.execute(new BookCategoryGetAllQuery(filters));
   }
 
   async delete(id: number): Promise<undefined> {

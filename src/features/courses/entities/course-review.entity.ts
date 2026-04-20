@@ -1,5 +1,6 @@
 import {BaseModel} from '@/core/base-model.entity';
 import {Column, Entity, JoinColumn, ManyToOne} from 'typeorm';
+import type {Relation} from 'typeorm';
 import {User} from '../../authentication/entities/user.entity';
 import {Course} from './course.entity';
 
@@ -10,14 +11,14 @@ export class CourseReview extends BaseModel {
 
   @ManyToOne(() => User, (user) => user.courseReviews, {onDelete: 'CASCADE'})
   @JoinColumn({name: 'userId'})
-  user?: User;
+  user?: Relation<User>;
 
   @Column()
   courseId!: number;
 
   @ManyToOne(() => Course, (course) => course.reviews, {onDelete: 'CASCADE'})
   @JoinColumn({name: 'courseId'})
-  course?: Course;
+  course?: Relation<Course>;
 
   @Column()
   rating!: number;

@@ -1,32 +1,43 @@
 services:
-  postgres:
-    env_file: .env
-    image: postgres:18-alpine
+  uzchess-backend:
+    build: .
+    command: >
+      sh -c "npm run migrate && node dist/main.js"
+    env_file:
+      - .env
+    ports:
+      - "8888:8888"
+    restart: always
+    container_name: uzchess
+    networks:
+      - uzchess
+    depends_on:
+      db:
+        condition: service_healthy
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - uploads:/app/uploads/
+  db:
+    image: postgres:18-alpine
+    env_file:
+      - .env
+    container_name: postgress-db
+    networks:
+      - uzchess
     restart: always
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U postgres" ]
       interval: 5s
       timeout: 5s
       retries: 5
-    networks:
-      - uzchess
-  backend:
-    env_file: .env
-    build: .
-    container_name: uzchess
-    restart: always
-    depends_on:
-      postgres:
-        condition: service_healthy
-    ports:
-      - ${PORT}:${PORT}
-    networks:
-      - uzchess
+    volumes:
+      - uzchess:/var/lib/postgresql/data
+
+volumes:
+  uzchess:
+  uploads:
+
 networks:
   uzchess:
     driver: bridge
-volumes:
-  uploads:
-  postgres_data:
+
+

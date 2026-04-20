@@ -1,5 +1,3 @@
-import type { Request } from 'express';
-
 import {
   Body,
   Controller,
@@ -8,7 +6,6 @@ import {
   ParseIntPipe,
   Patch,
   Post,
-  Req,
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
@@ -20,6 +17,8 @@ import { CourseCreateAdminDto } from '@/features/courses/dtos/course/admin/cours
 import { FileInterceptor } from '@nestjs/platform-express';
 import { storageOptions } from '@/configs/multer.configs';
 import { CourseListAdminDto } from '@/features/courses/dtos/course/admin/course.list.admin.dto';
+import { CurrentUser } from '@/core/decorators/current-user.decorator';
+import type { JwtPayload } from '@/core/jwt-payload.interface';
 
 @ApiTags('Course - Admin')
 @ApiBearerAuth()
@@ -38,14 +37,8 @@ export class CourseAdminController {
 
   @Get()
   @ApiOkResponse({ type: () => CourseListAdminDto, isArray: true })
-  async getAll(@Req() request: Request) {
-    let userId = undefined;
-    // @ts-ignore
-    if (request.user) {
-      // @ts-ignore
-      userId = request.user.id;
-    }
-    return await this.service.getAll(userId);
+  async getAll(@CurrentUser() user: JwtPayload) {
+    return await this.service.getAll(user);
   }
 
   @Patch(':id')

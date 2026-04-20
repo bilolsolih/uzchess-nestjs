@@ -9,6 +9,8 @@ import { Author } from '@/features/common/entities/author.entity';
 import { CourseCategory } from '@/features/courses/entities/course-category.entity';
 import { Language } from '@/features/common/entities/language.entity';
 import { Difficulty } from '@/features/common/entities/difficulty.entity';
+import { JwtPayload } from '@/core/jwt-payload.interface';
+
 
 @Injectable()
 export class CourseAdminService {
@@ -90,16 +92,16 @@ export class CourseAdminService {
     return course;
   }
 
-  async getAll(userId?: number) {
+  async getAll(user: JwtPayload) {
     const courses = await Course.createQueryBuilder('courses')
-      .leftJoinAndSelect('courses.likes', 'likes', 'likes.userId = :userId', { userId: userId })
+      .leftJoinAndSelect('courses.likes', 'likes', 'likes.userId = :userId', { userId: user ? user.id : undefined })
       .leftJoinAndSelect('courses.author', 'author')
       .leftJoinAndSelect('courses.category', 'category')
       .leftJoinAndSelect('courses.difficulty', 'difficulty')
       .leftJoinAndSelect('courses.language', 'language')
       .getMany();
 
-    if (userId) {
+    if (user) {
       for (const course of courses) {
         // @ts-ignore
         course.isLiked = Boolean(course.likes?.length);

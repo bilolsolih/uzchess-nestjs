@@ -1,4 +1,5 @@
 import {Column, Entity, JoinColumn, ManyToOne, OneToMany} from 'typeorm';
+import type {Relation} from 'typeorm';
 import {BaseModel} from '../../../core/base-model.entity';
 import {Course} from './course.entity';
 import {CourseSection} from './course-section.entity';
@@ -11,14 +12,14 @@ export class CourseLesson extends BaseModel {
 
   @ManyToOne(() => Course, (course) => course.lessons, {onDelete: 'CASCADE'})
   @JoinColumn({name: 'courseId'})
-  course?: Course;
+  course?: Relation<Course>;
 
   @Column()
   courseSectionId!: number;
 
   @ManyToOne(() => CourseSection, (section) => section.lessons, {onDelete: 'CASCADE'})
   @JoinColumn({name: 'courseSectionId'})
-  courseSection?: CourseSection;
+  courseSection?: Relation<CourseSection>;
 
   @Column({length: 128})
   title!: string;
@@ -39,5 +40,5 @@ export class CourseLesson extends BaseModel {
   isFree!: boolean;
 
   @OneToMany(() => UsersLessons, (user) => user.courseLesson)
-  users?: UsersLessons[];
+  users?: Relation<UsersLessons[]>;
 }

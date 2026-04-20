@@ -9,7 +9,7 @@ export class ReportCreatePublicDto {
   categoryId!: number;
 
   @IsEnum(ReportType)
-  @ApiProperty()
+  @ApiProperty({ enum: ReportType })
   target!: ReportType;
 
   @IsInt()

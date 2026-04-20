@@ -1,5 +1,6 @@
 import { BaseModel } from '@/core/base-model.entity';
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
+import type { Relation } from 'typeorm';
 import { Author } from '../../common/entities/author.entity';
 import { Language } from '../../common/entities/language.entity';
 import { Difficulty } from '../../common/entities/difficulty.entity';
@@ -14,28 +15,28 @@ export class Book extends BaseModel {
 
   @ManyToOne(() => Author, (author) => author.books, { onDelete: 'RESTRICT' })
   @JoinColumn({ name: 'authorId' })
-  author?: Author;
+  author?: Relation<Author>;
 
   @Column()
   categoryId!: number;
 
   @ManyToOne(() => BookCategory, (bookCategory) => bookCategory.books, { onDelete: 'RESTRICT' })
   @JoinColumn({ name: 'categoryId' })
-  category?: BookCategory;
+  category?: Relation<BookCategory>;
 
   @Column()
   languageId!: number;
 
   @ManyToOne(() => Language, (language) => language.books, { onDelete: 'RESTRICT' })
   @JoinColumn({ name: 'languageId' })
-  language?: Language;
+  language?: Relation<Language>;
 
   @Column()
   difficultyId!: number;
 
   @ManyToOne(() => Difficulty, (difficulty) => difficulty.books, { onDelete: 'RESTRICT' })
   @JoinColumn({ name: 'difficultyId' })
-  difficulty?: Difficulty;
+  difficulty?: Relation<Difficulty>;
 
   @Column({ length: 256 })
   title!: string;
@@ -52,21 +53,21 @@ export class Book extends BaseModel {
   @Column({ type: 'decimal', precision: 12, scale: 2, nullable: true })
   newPrice?: number;
 
+  @Column()
+  pages!: number;
+
   @Column({ type: 'decimal', precision: 2, scale: 1, nullable: true })
   rating?: number;
 
   @Column({ default: 0 })
   reviewsCount!: number;
 
-  @Column()
-  pages!: number;
-
   @Column({ type: 'date' })
-  pubDate!: Date;
+  pubDate!: string;
 
   @OneToMany(() => BookReview, (review) => review.book)
-  reviews?: BookReview[];
+  reviews?: Relation<BookReview[]>;
 
   @OneToMany(() => BookLike, (like) => like.book)
-  likes?: BookLike[];
+  likes?: Relation<BookLike[]>;
 }

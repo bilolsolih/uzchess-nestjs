@@ -13,5 +13,5 @@ export class News extends BaseModel {
   content!: string;
 
   @Column({type: 'timestamp'})
-  date!: Date;
+  date!: string;
 }

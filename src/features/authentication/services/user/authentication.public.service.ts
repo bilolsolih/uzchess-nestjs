@@ -7,6 +7,7 @@ import { ResendOtpDto, SetPasswordDto, SignInDto, SignUpDto, VerifyOtpDto } from
 import { OtpType } from '@/core/enums/otp-type.enum';
 import { OtpCode } from '@/features/authentication/entities/otp-code.entity';
 import { ILike } from 'typeorm';
+import { JwtPayload } from '@/core/jwt-payload.interface';
 
 @Injectable()
 export class AuthenticationPublicService {
@@ -53,7 +54,7 @@ export class AuthenticationPublicService {
       id: user.id,
       login: user.login,
       role: user.role,
-    };
+    } as JwtPayload;
 
     let accessToken = this.jwtService.sign(userPayload);
 

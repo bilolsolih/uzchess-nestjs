@@ -10,7 +10,7 @@ import {
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
-import { NewsServiceAdmin } from '../services/news.service.admin';
+import { NewsServiceAdmin } from '../services/news/news.service.admin';
 import { ApiBearerAuth, ApiConsumes, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { NewsCreateDtoAdmin } from '../dtos/news/admin/news.create.dto.admin';
 import { NewsListDtoAdmin } from '../dtos/news/admin/news.list.dto.admin';
@@ -40,13 +40,13 @@ export class NewsControllerAdmin {
   @Get()
   @ApiOkResponse({ type: () => NewsListDtoAdmin, isArray: true })
   async getAll(@Query() filters: NewsFilters) {
-    return await this.service.findAll();
+    return await this.service.getAll(filters);
   }
 
   @Get(':id')
   @ApiOkResponse({ type: () => NewsDetailDtoAdmin })
   async getOne(@Param('id', ParseIntPipe) id: number): Promise<NewsDetailDtoAdmin> {
-    return await this.service.findOne(id);
+    return await this.service.getOne(id);
   }
 
   @Patch(':id')

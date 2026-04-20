@@ -14,6 +14,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { ChatModule } from '@/features/chat/chat.module';
 import { ConfigModule } from '@nestjs/config';
 import { configModuleOptions } from '@/configs/env.config';
+import { CqrsModule } from '@nestjs/cqrs';
 
 
 @Module({
@@ -22,6 +23,7 @@ import { configModuleOptions } from '@/configs/env.config';
     { provide: APP_GUARD, useClass: RolesGuard },
   ],
   imports: [
+    CqrsModule.forRoot(),
     JwtModule.register(jwtModuleConfig),
     TypeOrmModule.forRoot(typeOrmConfig),
     ConfigModule.forRoot(configModuleOptions),

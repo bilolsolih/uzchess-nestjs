@@ -14,7 +14,7 @@ export class CoursePublicController {
   }
 
   @Get()
-  @ApiOkResponse({ type: PaginatedResultDto(CourseListPublicDto) })
+  @ApiOkResponse({ type:()=> PaginatedResultDto(CourseListPublicDto) })
   async getAll(@Query() filters: CoursePublicFilters) {
     return await this.service.getAll(filters);
   }

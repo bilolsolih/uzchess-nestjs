@@ -1,4 +1,5 @@
 import { Column, Entity, OneToMany } from 'typeorm';
+import type { Relation } from 'typeorm';
 import { LoginType } from '@/core/enums/login-type.enum';
 import { BaseModel } from '@/core/base-model.entity';
 import { OtpCode } from './otp-code.entity';
@@ -43,23 +44,23 @@ export class User extends BaseModel {
   isDeleted!: boolean;
 
   @OneToMany(() => OtpCode, (otpCode) => otpCode.user)
-  otpCodes?: OtpCode[];
+  otpCodes?: Relation<OtpCode[]>;
 
   @OneToMany(() => BookReview, (bookReview) => bookReview.user)
-  bookReviews?: BookReview[];
+  bookReviews?: Relation<BookReview[]>;
 
   @OneToMany(() => BookLike, (bookLike) => bookLike.user)
-  bookLikes?: BookLike[];
+  bookLikes?: Relation<BookLike[]>;
 
   @OneToMany(() => CourseReview, (courseReview) => courseReview.user)
-  courseReviews?: CourseReview[];
+  courseReviews?: Relation<CourseReview[]>;
 
   @OneToMany(() => CourseLike, (courseLike) => courseLike.user)
-  courseLikes?: CourseLike[];
+  courseLikes?: Relation<CourseLike[]>;
 
   @OneToMany(() => UsersLessons, (lesson) => lesson.user)
-  lessons?: UsersLessons[];
+  lessons?: Relation<UsersLessons[]>;
 
   @OneToMany(() => Report, report => report.user)
-  reports?: Report[];
+  reports?: Relation<Report[]>;
 }

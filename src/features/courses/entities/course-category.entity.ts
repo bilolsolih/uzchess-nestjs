@@ -1,5 +1,6 @@
 import {BaseModel} from '@/core/base-model.entity';
 import {Column, Entity, OneToMany} from 'typeorm';
+import type {Relation} from 'typeorm';
 import {Course} from './course.entity';
 
 @Entity('courseCategories')
@@ -8,5 +9,5 @@ export class CourseCategory extends BaseModel {
   title!: string;
 
   @OneToMany(() => Course, (course) => course.category)
-  courses?: Course[];
+  courses?: Relation<Course[]>;
 }

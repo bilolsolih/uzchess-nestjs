@@ -6,7 +6,7 @@ import { IsBoolean, IsDateString, IsEnum, IsOptional, IsString, MaxLength } from
 
 export class UserCreateAdminDto {
   @Expose()
-  @ApiProperty()
+  @ApiProperty({ enum: Role })
   @IsEnum(Role)
   role!: Role;
 
@@ -28,7 +28,7 @@ export class UserCreateAdminDto {
   login!: string;
 
   @Expose()
-  @ApiProperty()
+  @ApiProperty({ enum: LoginType })
   @IsEnum(LoginType)
   loginType!: LoginType;
 

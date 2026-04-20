@@ -1,7 +1,7 @@
 import { Controller, Get, Param, ParseIntPipe, Query, Req, Res } from '@nestjs/common';
 import type { Request, Response } from 'express';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
-import { NewsServicePublic } from '../services/news.service.public';
+import { NewsServicePublic } from '../services/news/news.service.public';
 import { NewsDetailDtoPublic } from '../dtos/news/public/news.detail.dto.public';
 import getFullPath from '@/core/utils/get-full-path';
 import { NewsFilters } from '@/features/news/filters/news.filters';
@@ -15,7 +15,7 @@ export class NewsControllerPublic {
   }
 
   @Get()
-  @ApiOkResponse({ type: PaginatedResultDto(NewsListDtoPublic) })
+  @ApiOkResponse({ type: () => PaginatedResultDto(NewsListDtoPublic) })
   async getAll(@Req() req: Request, @Res() res: Response, @Query() filters: NewsFilters) {
     const result = await this.service.getAll(filters);
     // @ts-ignore

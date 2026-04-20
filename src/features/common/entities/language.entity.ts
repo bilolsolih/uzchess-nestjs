@@ -1,4 +1,5 @@
 import { Column, Entity, OneToMany } from 'typeorm';
+import type { Relation } from 'typeorm';
 import { BaseModel } from '@/core/base-model.entity';
 import { Course } from '../../courses/entities/course.entity';
 import { Book } from '@/features/library/entities/book.entity';
@@ -12,8 +13,8 @@ export class Language extends BaseModel {
   code!: string;
 
   @OneToMany(() => Course, (course) => course.language)
-  courses?: Course[];
+  courses?: Relation<Course[]>;
 
   @OneToMany(() => Book, (book) => book.language)
-  books?: Book[];
+  books?: Relation<Book[]>;
 }

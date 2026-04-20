@@ -14,6 +14,6 @@ export class SignUpDto {
   login!: string;
 
   @IsEnum(LoginType)
-  @ApiProperty()
+  @ApiProperty({ enum: LoginType })
   loginType!: LoginType;
 }

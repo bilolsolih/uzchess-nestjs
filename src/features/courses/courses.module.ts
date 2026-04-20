@@ -14,9 +14,16 @@ import { CoursePublicController } from '@/features/courses/controllers/course/co
 import {
   CourseCategoryAdminRepository,
 } from '@/features/courses/repositories/course-category/course-category.admin.repository';
+import { CoursePublicRepository } from '@/features/courses/repositories/courses/course.public.repository';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { CourseCategory } from '@/features/courses/entities/course-category.entity';
+import { Course } from '@/features/courses/entities/course.entity';
 
 
 @Module({
+  imports: [
+    TypeOrmModule.forFeature([CourseCategory, Course])
+  ],
   providers: [
     CourseCategoryAdminService,
     CourseCategoryPublicService,
@@ -24,6 +31,7 @@ import {
     CoursePublicService,
     CourseLikePublicService,
     CourseCategoryAdminRepository,
+    CoursePublicRepository,
   ],
   controllers: [
     CourseCategoryAdminController,

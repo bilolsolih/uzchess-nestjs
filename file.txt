@@ -1,0 +1,44 @@
+FROM node:25-alpine
+
+WORKDIR /app
+
+COPY package.json ./
+
+COPY package-lock.json ./
+
+RUN npm install
+
+COPY . .
+
+RUN npm run build
+
+RUN npm run migrate
+
+CMD ["node", "dist/main.js"]
+
+
+services:
+  uzchess-backend:
+    build: .
+    env_file:
+      - .env
+    ports:
+      - "8888:8888"
+    restart: always
+    container_name: uzchess
+    networks:
+      - uzchess
+  db:
+    image: postgres:18-alpine
+    env_file:
+      - .env
+    container_name: postgress-db
+    networks:
+      - uzchess
+
+networks:
+  uzchess:
+    driver: bridge
+
+
+

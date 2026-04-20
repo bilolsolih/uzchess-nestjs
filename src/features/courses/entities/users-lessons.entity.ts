@@ -1,5 +1,6 @@
 import {BaseModel} from '../../../core/base-model.entity';
 import {Column, Entity, JoinColumn, ManyToOne} from 'typeorm';
+import type {Relation} from 'typeorm';
 import {User} from '../../authentication/entities/user.entity';
 import {CourseLesson} from './course-lesson.entity';
 
@@ -10,14 +11,14 @@ export class UsersLessons extends BaseModel {
 
   @ManyToOne(() => User, (user) => user.lessons, {onDelete: 'CASCADE'})
   @JoinColumn({name: 'userId'})
-  user?: User;
+  user?: Relation<User>;
 
   @Column()
   courseLessonId!: number;
 
   @ManyToOne(() => CourseLesson, (lesson) => lesson.users, {onDelete: 'CASCADE'})
   @JoinColumn({name: 'courseLessonId'})
-  courseLesson?: CourseLesson;
+  courseLesson?: Relation<CourseLesson>;
 
   @Column({nullable: true})
   stoppedAt?: number;

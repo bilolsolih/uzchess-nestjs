@@ -1,5 +1,6 @@
 import { BaseModel } from '@/core/base-model.entity';
 import { Column, Entity, OneToMany } from 'typeorm';
+import type { Relation } from 'typeorm';
 import { Report } from './report.entity';
 
 @Entity('reportCategories')
@@ -11,5 +12,5 @@ export class ReportCategory extends BaseModel {
   order?: number;
 
   @OneToMany(() => Report, (report) => report.category)
-  reports?: Report[];
+  reports?: Relation<Report[]>;
 }
