@@ -6,6 +6,7 @@ export class GlobalFilter implements ExceptionFilter {
   catch(exception: HttpException, host: ArgumentsHost): void {
     const req = host.switchToHttp().getRequest<Request>();
     const res = host.switchToHttp().getResponse<Response>();
+
     console.log({
       url: req.url,
       method: req.method,

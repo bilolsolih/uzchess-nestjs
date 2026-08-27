@@ -5,11 +5,21 @@ import { AuthenticationPublicController } from './controllers/user/authenticatio
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from '@/features/authentication/entities/user.entity';
 import { OtpCode } from '@/features/authentication/entities/otp-code.entity';
+import { AuthenticationAdminController } from '@/features/authentication/controllers/user/authentication.admin.controller';
+import { AuthenticationAdminService } from '@/features/authentication/services/user/authentication.admin.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User, OtpCode])],
-  controllers: [AuthenticationPublicController],
-  providers: [AuthenticationPublicService, OtpCodePublicService],
+  controllers: [
+    AuthenticationAdminController,
+    AuthenticationPublicController,
+
+  ],
+  providers: [
+    AuthenticationAdminService,
+    AuthenticationPublicService,
+    OtpCodePublicService,
+  ],
 })
 export class AuthenticationModule {
 }

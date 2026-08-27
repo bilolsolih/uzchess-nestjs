@@ -2,8 +2,7 @@
   "compilerOptions": {
     "target": "ESNext",
     "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "resolvePackageJsonExports": true,
+    "moduleResolution": "nodenext",
     "isolatedModules": true,
     "declaration": true,
     "removeComments": true,

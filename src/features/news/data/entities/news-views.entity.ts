@@ -1,7 +1,7 @@
-import {BaseModel} from '../../../core/base-model.entity';
+import {BaseModel} from '../../../../core/base-model.entity';
 import {Column, CreateDateColumn, Entity, JoinColumn, ManyToOne} from 'typeorm';
 import type {Relation} from 'typeorm';
-import {User} from '../../authentication/entities/user.entity';
+import {User} from '../../../authentication/entities/user.entity';
 import {News} from './news.entity';
 
 @Entity('newsViews')

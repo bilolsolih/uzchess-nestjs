@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { CourseCategoryAdminService } from './services/course-category/course-category.admin.service';
+import { CourseCategoryAdminService, ICourseCategoryRepository } from './services/course-category/course-category.admin.service';
 import { CourseCategoryPublicService } from './services/course-category/course-category.public.service';
 import { CourseCategoryAdminController } from './controllers/course-category/course-category.admin.controller';
 import { CourseCategoryPublicController } from './controllers/course-category/course-category.public.controller';
@@ -12,8 +12,8 @@ import { CoursePublicService } from '@/features/courses/services/course/course.p
 import { CourseAdminController } from '@/features/courses/controllers/course/course.admin.controller';
 import { CoursePublicController } from '@/features/courses/controllers/course/course.public.controller';
 import {
-  CourseCategoryAdminRepository,
-} from '@/features/courses/repositories/course-category/course-category.admin.repository';
+  CourseCategoryRepository,
+} from '@/features/courses/repositories/course-category/course-category-repository.service';
 import { CoursePublicRepository } from '@/features/courses/repositories/courses/course.public.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CourseCategory } from '@/features/courses/entities/course-category.entity';
@@ -22,7 +22,7 @@ import { Course } from '@/features/courses/entities/course.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([CourseCategory, Course])
+    TypeOrmModule.forFeature([CourseCategory, Course]),
   ],
   providers: [
     CourseCategoryAdminService,
@@ -30,7 +30,7 @@ import { Course } from '@/features/courses/entities/course.entity';
     CourseAdminService,
     CoursePublicService,
     CourseLikePublicService,
-    CourseCategoryAdminRepository,
+    { provide: ICourseCategoryRepository, useClass: CourseCategoryRepository },
     CoursePublicRepository,
   ],
   controllers: [

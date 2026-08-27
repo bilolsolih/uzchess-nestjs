@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { BookCategoryCreateDtoAdmin } from '../../dtos/book-category/admin/book-category.create.dto.admin';
-import { BookCategoryServiceAdmin } from '../../services/book-category/book-category.service.admin';
+import { BookCategoryAdminService } from '../../services/book-category/book-category-admin.service';
 import { BookCategoryUpdateDtoAdmin } from '../../dtos/book-category/admin/book-category.update.dto.admin';
 import { BookCategoryListDtoAdmin } from '../../dtos/book-category/admin/book-category.list.dto.admin';
 import { ApiBearerAuth, ApiOkResponse } from '@nestjs/swagger';
@@ -12,8 +12,8 @@ import { PaginatedResultDto } from '@/features/common/dtos/paginated-result.dto'
 @ApiBearerAuth()
 @Controller('admin/book-category')
 @Roles(Role.Admin, Role.SuperAdmin)
-export class BookCategoryControllerAdmin {
-  constructor(private readonly service: BookCategoryServiceAdmin) {
+export class BookCategoryAdminController {
+  constructor(private readonly service: BookCategoryAdminService) {
   }
 
   @Post()

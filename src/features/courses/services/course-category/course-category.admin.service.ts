@@ -6,14 +6,26 @@ import {
   CourseCategoryUpdateAdminDto,
 } from '@/features/courses/dtos/course-category';
 import { plainToInstance } from 'class-transformer';
-import {
-  CourseCategoryAdminRepository,
-} from '@/features/courses/repositories/course-category/course-category.admin.repository';
 import { PaginationFilters } from '@/features/common/filters/pagination.filters';
+import { PaginatedResult } from '@/features/common/dtos/paginated-result.dto';
+
+export abstract class IBaseRepository {
+  abstract save(entity: CourseCategory): Promise<CourseCategory>;
+
+  abstract getAll(filters: PaginationFilters): Promise<PaginatedResult>;
+
+  abstract delete(courseCategory: CourseCategory): Promise<void>;
+}
+
+
+export abstract class ICourseCategoryRepository extends IBaseRepository {
+  abstract getOneById(id: number): Promise<CourseCategory | null>;
+}
+
 
 @Injectable()
 export class CourseCategoryAdminService {
-  constructor(private readonly repo: CourseCategoryAdminRepository) {
+  constructor(private readonly repo: ICourseCategoryRepository) {
   }
 
   async create(payload: CourseCategoryCreateAdminDto) {
@@ -38,13 +50,13 @@ export class CourseCategoryAdminService {
   }
 
   async deleteOne(id: number) {
-    const courseCategory = await CourseCategory.findOneBy({ id });
+    const courseCategory = await this.repo.getOneById(id);
     if (!courseCategory) {
       throw new NotFoundException('CourseCategory with given id not found');
     }
 
     try {
-      await CourseCategory.remove(courseCategory);
+      await this.repo.delete(courseCategory);
     } catch (exc) {
       throw new BadRequestException(`CourseCategory couldn't be deleted: ${exc}`);
     }

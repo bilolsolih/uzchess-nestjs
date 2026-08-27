@@ -10,17 +10,17 @@ import {
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
-import { NewsServiceAdmin } from '../services/news/news.service.admin';
 import { ApiBearerAuth, ApiConsumes, ApiOkResponse, ApiTags } from '@nestjs/swagger';
-import { NewsCreateDtoAdmin } from '../dtos/news/admin/news.create.dto.admin';
-import { NewsListDtoAdmin } from '../dtos/news/admin/news.list.dto.admin';
-import { NewsUpdateDtoAdmin } from '../dtos/news/admin/news.update.dto.admin';
-import { NewsDetailDtoAdmin } from '../dtos/news/admin/news.detail.dto.admin';
+import { NewsCreateDtoAdmin } from '@/features/news/presentation/dtos/news/admin/news.create.dto.admin';
+import { NewsListDtoAdmin } from '@/features/news/presentation/dtos/news/admin/news.list.dto.admin';
+import { NewsUpdateDtoAdmin } from '@/features/news/presentation/dtos/news/admin/news.update.dto.admin';
+import { NewsDetailDtoAdmin } from '@/features/news/presentation/dtos/news/admin/news.detail.dto.admin';
 import { Roles } from '@/core/decorators/roles.decorator';
 import { Role } from '@/core/enums/role.enum';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { storageOptions } from '@/configs/multer.configs';
-import { NewsFilters } from '@/features/news/filters/news.filters';
+import { NewsFilters } from '@/features/news/presentation/filters/news.filters';
+import { NewsServiceAdmin } from '@/features/news/application/services/news/news.service.admin';
 
 @Controller('admin/news')
 @Roles(Role.Admin, Role.SuperAdmin)

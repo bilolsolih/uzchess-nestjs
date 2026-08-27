@@ -8,7 +8,7 @@ export abstract class BaseRepository<T extends BaseModel> {
   protected abstract config: ConfigService;
   protected abstract repo: Repository<T>;
 
-  public async getAll(filters: PaginationFilters, whereOptions?: FindOptionsWhere<T>) {
+  public async getAll(filters: PaginationFilters, whereOptions?: FindOptionsWhere<T>){
     const take = filters.size ?? this.config.getOrThrow<number>('DEFAULT_SIZE');
     const currentPage = filters.page ?? this.config.getOrThrow<number>('DEFAULT_PAGE');
     const skip = (currentPage - 1) * take;
@@ -19,7 +19,7 @@ export abstract class BaseRepository<T extends BaseModel> {
     const previousPage = currentPage > 1 ? currentPage - 1 : null;
     const nextPage = currentPage < totalPages ? currentPage + 1 : null;
 
-    const data = await this.repo.find({ skip: skip, take: take, where: whereOptions });
+    const data = await this.repo.find({ skip: skip, take: take, where: whereOptions }) as T[];
 
     return { totalCount, totalPages, previousPage, currentPage, nextPage, data } as PaginatedResult;
   }
@@ -33,6 +33,6 @@ export abstract class BaseRepository<T extends BaseModel> {
   }
 
   public async delete(entity: T) {
-    return await this.repo.remove(entity);
+    await this.repo.remove(entity);
   }
 }

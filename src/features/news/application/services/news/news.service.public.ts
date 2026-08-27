@@ -1,9 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
-import { News } from '../../entities/news.entity';
-import { NewsListDtoPublic } from '../../dtos/news/public/news.list.dto.public';
-import { NewsDetailDtoPublic } from '../../dtos/news/public/news.detail.dto.public';
-import { NewsFilters } from '@/features/news/filters/news.filters';
+import { News } from '@/features/news/data/entities/news.entity';
+import { NewsListDtoPublic } from '@/features/news/presentation/dtos/news/public/news.list.dto.public';
+import { NewsDetailDtoPublic } from '@/features/news/presentation/dtos/news/public/news.detail.dto.public';
+import { NewsFilters } from '@/features/news/presentation/filters/news.filters';
 import { FindOptionsWhere, ILike } from 'typeorm';
 import { PaginatedResult } from '@/features/common/dtos/paginated-result.dto';
 import { ConfigService } from '@nestjs/config';

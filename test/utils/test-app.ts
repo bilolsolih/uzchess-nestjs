@@ -3,8 +3,12 @@ import { DataSource } from 'typeorm';
 // @ts-ignore
 import { createTestDataSource } from './test-database';
 import { Test, TestingModule } from '@nestjs/testing';
-import { AppModule } from '../../src/app.module';
+import { AppModule } from '@/app.module';
 import { getDataSourceToken } from '@nestjs/typeorm';
+import { GlobalFilter } from '../../src/core/filters/global.filter';
+import morgan from 'morgan';
+import { join } from 'path';
+import { NestExpressApplication } from '@nestjs/platform-express';
 
 export interface TestApp {
   app: INestApplication;
@@ -20,7 +24,7 @@ export async function createTestApp(): Promise<TestApp> {
     .useValue(dataSource)
     .compile();
 
-  const app = moduleFixture.createNestApplication();
+  const app = moduleFixture.createNestApplication<NestExpressApplication>();
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
@@ -28,6 +32,11 @@ export async function createTestApp(): Promise<TestApp> {
       transform: true,
     }),
   );
+
+  app.useGlobalFilters(new GlobalFilter());
+  app.use(morgan('dev'));
+
+  app.useStaticAssets(join(__dirname, '..', 'uploads'), { prefix: '/uploads/' });
   await app.init();
   return { app, dataSource };
 }

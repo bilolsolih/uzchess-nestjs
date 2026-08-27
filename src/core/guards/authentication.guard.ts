@@ -2,10 +2,8 @@ import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from
 import { JwtService } from '@nestjs/jwt';
 import { Reflector } from '@nestjs/core';
 import { RolesKey } from '@/core/decorators/roles.decorator';
-import { Numbers } from '@/core/decorators/numbers.decorator';
 
 @Injectable()
-@Numbers(1, 2, 3, 4)
 export class AuthenticationGuard implements CanActivate {
   constructor(
     private readonly jwtService: JwtService,
@@ -14,11 +12,6 @@ export class AuthenticationGuard implements CanActivate {
   }
 
   async canActivate(context: ExecutionContext) {
-    const roles = this.reflector.getAllAndOverride(RolesKey, [context.getHandler(), context.getClass()]);
-    if (!roles) {
-      return true;
-    }
-
     const req = context.switchToHttp().getRequest();
     let header: string | undefined;
     if (req.headers && req.headers.authorization) {
@@ -26,6 +19,11 @@ export class AuthenticationGuard implements CanActivate {
 
     } else if (req.handshake && req.handshake.headers.authorization) {
       header = req.handshake.headers.authorization;
+    }
+
+    const roles = this.reflector.getAllAndOverride(RolesKey, [context.getHandler(), context.getClass()]);
+    if (!roles && !header) {
+      return true;
     }
 
     if (!header) {

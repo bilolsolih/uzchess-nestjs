@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '../../entities/user.entity';
-import argon2 from 'argon2';
+import * as argon2 from 'argon2';
 import { OtpCodePublicService } from '@/features/authentication/services/otp-code/otp-code.public.service';
 import { ResendOtpDto, SetPasswordDto, SignInDto, SignUpDto, VerifyOtpDto } from '@/features/authentication/dtos/user';
 import { OtpType } from '@/core/enums/otp-type.enum';

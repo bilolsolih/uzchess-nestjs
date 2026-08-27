@@ -1,11 +1,5 @@
-import {
-  MessageBody,
-  OnGatewayConnection,
-  SubscribeMessage,
-  WebSocketGateway,
-  WebSocketServer,
-} from '@nestjs/websockets';
-import { Server } from 'socket.io';
+import { ConnectedSocket, MessageBody, OnGatewayConnection, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
+import { Server, Socket } from 'socket.io';
 import { MessageDto } from '@/features/chat/dtos/message.dto';
 import { Roles } from '@/core/decorators/roles.decorator';
 import { Role } from '@/core/enums/role.enum';
@@ -16,7 +10,7 @@ import { AuthenticationGuard } from '@/core/guards/authentication.guard';
 @WebSocketGateway({
   cors: { origin: '*' },
 })
-export class ChatGateway implements OnGatewayConnection {
+export class ChatGateway {
   @WebSocketServer()
   server!: Server;
 
@@ -27,10 +21,4 @@ export class ChatGateway implements OnGatewayConnection {
     this.server.emit('uzchess-server', message);
     return message;
   }
-
-
-  handleConnection(client: any, ...args): any {
-    console.log(client.client.request);
-  }
-
 }

@@ -11,7 +11,7 @@ const TestDataSourceOptions: DataSourceOptions = {
   logging: false,
 };
 
-export async function createTestDataSource(): Promise<DataSource> {
+export async function createTestDataSource() {
   const dataSource = new DataSource(TestDataSourceOptions);
   await dataSource.initialize();
   return dataSource;

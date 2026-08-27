@@ -1,16 +1,17 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
-import { NewsCreateDtoAdmin } from '../../dtos/news/admin/news.create.dto.admin';
-import { News } from '../../entities/news.entity';
-import { NewsUpdateDtoAdmin } from '../../dtos/news/admin/news.update.dto.admin';
-import { NewsListDtoAdmin } from '../../dtos/news/admin/news.list.dto.admin';
-import { NewsDetailDtoAdmin } from '../../dtos/news/admin/news.detail.dto.admin';
-import { NewsAdminRepository } from '@/features/news/repositories/news/news.admin.repository';
-import { NewsFilters } from '@/features/news/filters/news.filters';
+import { NewsCreateDtoAdmin } from '@/features/news/presentation/dtos/news/admin/news.create.dto.admin';
+import { News } from '@/features/news/data/entities/news.entity';
+import { NewsUpdateDtoAdmin } from '@/features/news/presentation/dtos/news/admin/news.update.dto.admin';
+import { NewsListDtoAdmin } from '@/features/news/presentation/dtos/news/admin/news.list.dto.admin';
+import { NewsDetailDtoAdmin } from '@/features/news/presentation/dtos/news/admin/news.detail.dto.admin';
+import { NewsFilters } from '@/features/news/presentation/filters/news.filters';
+import { INewsRepository } from '@/features/news/application/repositories/news.repository.interface';
+
 
 @Injectable()
 export class NewsServiceAdmin {
-  constructor(private readonly repo: NewsAdminRepository) {
+  constructor(private readonly repo: INewsRepository) {
   }
 
   async create(payload: NewsCreateDtoAdmin, image: Express.Multer.File) {

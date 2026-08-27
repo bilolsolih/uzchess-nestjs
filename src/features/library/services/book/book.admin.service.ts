@@ -9,6 +9,7 @@ import { AuthorRepository } from '@/features/common/repositories/author.reposito
 import { DifficultyRepository } from '@/features/common/repositories/difficulty.repository';
 import { LanguageRepository } from '@/features/common/repositories/language.repository';
 import { BookCategoryRepository } from '@/features/library/repositories/book-category.repository';
+import { BookDetailAdminDto } from '@/features/library/dtos/book/admin/book.detail.admin.dto';
 
 @Injectable()
 export class BookAdminService {
@@ -62,5 +63,23 @@ export class BookAdminService {
     const result = await this.repo.getAll(filters);
     result.data = plainToInstance(BookListAdminDto, result.data, { excludeExtraneousValues: true });
     return result;
+  }
+
+  async getOne(id: number) {
+    const book = await this.repo.getOneById(id);
+    if (!book) {
+      throw new NotFoundException('Book with given id not found');
+    }
+
+    return plainToInstance(BookDetailAdminDto, book, { excludeExtraneousValues: true });
+  }
+
+  async delete(id: number) {
+    const book = await this.repo.getOneById(id);
+    if (!book) {
+      throw new NotFoundException('Book with given id not found');
+    }
+
+    return await this.repo.delete(book);
   }
 }

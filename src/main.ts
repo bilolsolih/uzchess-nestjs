@@ -9,8 +9,9 @@ import morgan from 'morgan';
 import { GlobalFilter } from '@/core/filters/global.filter';
 
 async function bootstrap() {
+
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
-  app.enableCors({ origin: '*' });
+  app.enableCors({ origin: '*', credentials: true });
   configureSwagger(app);
   app.useGlobalPipes(
     new ValidationPipe({
@@ -22,9 +23,9 @@ async function bootstrap() {
   app.useGlobalFilters(new GlobalFilter());
   app.use(morgan('dev'));
 
-  app.useStaticAssets(join(__dirname, '..', 'uploads'), { prefix: '/uploads/' });
+  app.useStaticAssets(join(__dirname, '../..', 'uploads'), { prefix: '/uploads/' });
 
-  await app.listen(process.env.PORT ?? 8888);
+  await app.listen(process.env.PORT ?? 8888, "0.0.0.0");
 }
 
 bootstrap();

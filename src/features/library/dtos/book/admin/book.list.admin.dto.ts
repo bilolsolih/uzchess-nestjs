@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Expose } from 'class-transformer';
+import { Expose, Transform } from 'class-transformer';
 
 export class BookListAdminDto {
   @ApiProperty()
@@ -41,4 +41,9 @@ export class BookListAdminDto {
   @ApiProperty()
   @Expose()
   rating?: number;
+
+  @ApiProperty()
+  @Expose({ name: 'likes' })
+  @Transform((prop) => Boolean(prop.value.length))
+  isLiked!: boolean;
 }

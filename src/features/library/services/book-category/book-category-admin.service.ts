@@ -9,7 +9,7 @@ import { PaginationFilters } from '@/features/common/filters/pagination.filters'
 import { BookCategoryGetAllQuery } from '@/features/library/queries/book-category/book-category.get-all.query';
 
 @Injectable()
-export class BookCategoryServiceAdmin {
+export class BookCategoryAdminService {
   constructor(
     private readonly commandBus: CommandBus,
     private readonly queryBus: QueryBus,
